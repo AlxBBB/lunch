@@ -12,6 +12,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 
 //@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -45,6 +46,10 @@ public class User extends AbstractNamedEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     private Role role;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @OrderBy("date DESC")
+    protected List<Vote> votes;
 
     public User() {
     }
