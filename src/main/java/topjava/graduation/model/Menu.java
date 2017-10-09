@@ -22,9 +22,9 @@ public class Menu extends AbstractBaseEntity {
     protected List<Dish> dishes;
 
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "menu")
-    @OrderBy("date DESC")
-    protected List<Vote> votes;
+  //  @OneToMany(fetch = FetchType.LAZY, mappedBy = "menu")
+  //  @OrderBy("date DESC")
+  // protected List<Vote> votes;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_restaurant", nullable = false)
@@ -33,6 +33,14 @@ public class Menu extends AbstractBaseEntity {
     private Restaurant restaurant;
 
 
+    public Menu(Integer id, @NotNull LocalDate date, Restaurant restaurant) {
+        super(id);
+        this.date = date;
+        this.restaurant = restaurant;
+    }
+
+    public Menu() {
+    }
 
     public LocalDate getDate() {
         return date;

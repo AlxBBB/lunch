@@ -6,6 +6,5 @@
 
 
     <context:annotation-config/>
-
-    <!--context:component-scan base-package="topjava.graduation.**.service"/-->
+    <context:component-scan base-package="topjava.graduation.**.service"/>
 </beans>

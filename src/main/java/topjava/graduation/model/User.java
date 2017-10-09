@@ -12,6 +12,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -25,9 +26,9 @@ import java.util.List;
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email", name = "users_unique_email_idx")})
 public class User extends AbstractNamedEntity {
 
-    public static final String DELETE = "User.delete";
-    public static final String BY_EMAIL = "User.getByEmail";
-    public static final String ALL_SORTED = "User.getAllSorted";
+    //public static final String DELETE = "User.delete";
+    //public static final String BY_EMAIL = "User.getByEmail";
+    //public static final String ALL_SORTED = "User.getAllSorted";
 
     @Column(name = "email", nullable = false, unique = true)
     @Email
@@ -47,9 +48,13 @@ public class User extends AbstractNamedEntity {
     @Column(name = "role")
     private Role role;
 
+    public List<Vote> getVotes() {
+        return votes;
+    }
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     @OrderBy("date DESC")
-    protected List<Vote> votes;
+    private List<Vote> votes;
 
     public User() {
     }

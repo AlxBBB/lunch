@@ -22,6 +22,12 @@ INSERT INTO menus (id_restaurant,date) VALUES
   (100003,today()),                                         --100008
   (100004,today());                                         --100009
 
+
+INSERT INTO votes (id_user, id_menu, date) VALUES
+  (100000,100006,date_sub(today(),INTERVAL 1 DAY)),         --1000010
+  (100000,100008,today());                                  --1000011
+
+
 INSERT INTO dishes (name, id_menu, cost) VALUES
   ('Картошка фри',100006,7000),
   ('Чизбургер',100006,12000),
@@ -32,14 +38,12 @@ INSERT INTO dishes (name, id_menu, cost) VALUES
   ('Пельмешки',100007,11000),
   ('Бульен',100007,2000),
   ('Чай элитный',100007,5000),
-  ('Яишница',100009,17000),
+  ('Яичница',100009,17000),
   ('Утка по Пекински',100009,32000),
   ('Яйцо вареное',100009,8000),
   ('Какао',100009,8500);
 
-INSERT INTO votes (id_user, id_menu, date) VALUES
-  (100000,100006,date_sub(today(),INTERVAL 1 DAY)),
-  (100000,100008,today());
+
 
 
 
