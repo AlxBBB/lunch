@@ -26,7 +26,7 @@ public class Menu extends AbstractBaseEntity {
   //  @OrderBy("date DESC")
   // protected List<Vote> votes;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_restaurant", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     //@NotNull(groups = View.Persist.class)

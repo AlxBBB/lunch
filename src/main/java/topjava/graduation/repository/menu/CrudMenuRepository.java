@@ -24,4 +24,5 @@ public interface CrudMenuRepository  extends JpaRepository<Menu, Integer> {
     Menu findOne(Integer id);
 
 
+
 }

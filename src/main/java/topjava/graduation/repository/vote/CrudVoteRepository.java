@@ -1,7 +1,5 @@
-package topjava.graduation.repository.user;
+package topjava.graduation.repository.vote;
 
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -11,25 +9,21 @@ import topjava.graduation.model.User;
 import topjava.graduation.model.Vote;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Transactional(readOnly = true)
-public interface CrudUserRepository extends JpaRepository<User, Integer> {
+public interface CrudVoteRepository extends JpaRepository<Vote, Integer> {
     @Transactional
     @Modifying
-    @Query("DELETE FROM User u WHERE u.id=:id")
+    @Query("DELETE FROM Vote v WHERE v.id=:id")
     int delete(@Param("id") int id);
 
     @Transactional
     @Override
-    User save(User user);
+    Vote save(Vote vote);
 
     @Override
-    User findOne(Integer id);
+    Vote findOne(Integer id);
 
-    @Override
-    List<User> findAll(Sort sort);
-
-    User getByEmail(String email);
-
+    @Query("SELECT v FROM Vote v WHERE v.user.id=:user_id and v.date=:date")
+    Vote getVote(@Param("user_id") int user_id, @Param("date") LocalDate date);
 }

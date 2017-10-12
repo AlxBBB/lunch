@@ -5,39 +5,26 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import topjava.graduation.model.User;
-import topjava.graduation.model.Vote;
-import topjava.graduation.service.UserService;
+import topjava.graduation.model.Restaurant;
+import topjava.graduation.service.RestaurantService;
 
 @RestController
-@RequestMapping(UserController.REST_URL)
-public class UserController {
-    static final String REST_URL = "/user";
+@RequestMapping(RestaurantController.REST_URL)
+public class RestaurantController {
+    static final String REST_URL = "/restaurant";
     private final Logger log = LoggerFactory.getLogger(getClass());
 
-    private final UserService service;
+    private final RestaurantService service;
 
     @Autowired
-    public UserController(UserService service) {
+    public RestaurantController(RestaurantService service) {
         this.service = service;
     }
 
-    @GetMapping("/")
-    public String root() {
-        return "redirect:test";
-    }
-
-
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public User get(@PathVariable("id") int id) {
+    public Restaurant get(@PathVariable("id") int id) {
         log.info("get {}", id);
         return service.get(id);
-    }
-
-    @GetMapping(value = "/{id}/vote", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Vote getVote(@PathVariable("id") int id) {
-        log.info("get vote today by {}", id);
-        return service.getVote(id);
     }
 
     @DeleteMapping(value = "/{id}")

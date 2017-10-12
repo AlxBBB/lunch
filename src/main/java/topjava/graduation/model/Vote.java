@@ -20,21 +20,29 @@ public class Vote extends AbstractBaseEntity {
     //@NotNull(groups = View.Persist.class)
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_menu", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    //@NotNull(groups = View.Persist.class)
-    private Menu menu;
-
-
-    public Vote(Integer id, LocalDate date, Menu menu) {
-        super(id);
-        this.date = date;
-        this.menu = menu;
+    public Restaurant getRestaurant() {
+        return restaurant;
     }
 
-    public Vote(Integer id, LocalDate date, Menu menu, User user) {
-        this(id,date,menu);
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_restaurant", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    //@NotNull(groups = View.Persist.class)
+    private Restaurant restaurant;
+
+
+    public Vote(Integer id, LocalDate date, Restaurant restaurant) {
+        super(id);
+        this.date = date;
+        this.restaurant=restaurant;
+    }
+
+    public Vote(Integer id, LocalDate date, Restaurant restaurant, User user) {
+        this(id,date,restaurant);
         this.user=user;
     }
 
@@ -57,11 +65,5 @@ public class Vote extends AbstractBaseEntity {
         this.user = user;
     }
 
-    public Menu getMenu() {
-        return menu;
-    }
 
-    public void setMenu(Menu menu) {
-        this.menu = menu;
-    }
 }

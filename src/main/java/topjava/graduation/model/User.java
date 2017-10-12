@@ -48,14 +48,6 @@ public class User extends AbstractNamedEntity {
     @Column(name = "role")
     private Role role;
 
-    public List<Vote> getVotes() {
-        return votes;
-    }
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    @OrderBy("date DESC")
-    private List<Vote> votes;
-
     public User() {
     }
 

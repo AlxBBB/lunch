@@ -31,13 +31,6 @@ public class UserServiceTest extends AbstractServiceTest {
         MATCHER_USER.assertEquals(ADMIN, user);
     }
 
-    @Test
-    public void testGetWithVotes() throws Exception {
-        User user = service.getWithVotes(USER1_ID);
-        MATCHER_USER.assertEquals(USER1, user);
-        MATCHER_VOTE.assertListEquals(USER1_VOTES, user.getVotes());
-    }
-
 
     @Test
     public void testCreate() throws Exception {

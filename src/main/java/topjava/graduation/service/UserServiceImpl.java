@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import topjava.graduation.exception.NotFoundException;
 import topjava.graduation.model.User;
+import topjava.graduation.model.Vote;
 import topjava.graduation.repository.user.UserRepository;
 
 import java.util.List;
@@ -47,8 +48,8 @@ public class UserServiceImpl implements UserService  {  //, UserDetailsService
     }
 
     @Override
-    public User getWithVotes(int id) throws NotFoundException {
-        return checkNotFoundWithId(repository.getWithVotes(id), id);
+    public Vote getVote(int id) {
+        return checkNotFoundWithId(repository.getVote(id),id);
     }
 
     @Override

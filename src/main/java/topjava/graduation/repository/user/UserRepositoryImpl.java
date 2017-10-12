@@ -3,9 +3,13 @@ package topjava.graduation.repository.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import topjava.graduation.model.User;
+import topjava.graduation.model.Vote;
+import topjava.graduation.repository.vote.VoteRepository;
 
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -14,9 +18,12 @@ public class UserRepositoryImpl implements UserRepository {
 
     private final CrudUserRepository crudRepository;
 
+    private final VoteRepository voteRepository;
+
     @Autowired
-    public UserRepositoryImpl(CrudUserRepository crudRepository) {
+    public UserRepositoryImpl(CrudUserRepository crudRepository, VoteRepository voteRepository) {
         this.crudRepository = crudRepository;
+        this.voteRepository = voteRepository;
     }
 
     @Override
@@ -35,11 +42,6 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public User getWithVotes(int id) {
-        return crudRepository.getWithVotes(id);
-    }
-
-    @Override
     public User getByEmail(String email) {
         return crudRepository.getByEmail(email);
     }
@@ -49,4 +51,8 @@ public class UserRepositoryImpl implements UserRepository {
         return crudRepository.findAll(SORT_NAME_EMAIL);
     }
 
+    @Override
+    public Vote getVote(int id) {
+      return voteRepository.getVote(id, LocalDate.now());
+    }
 }

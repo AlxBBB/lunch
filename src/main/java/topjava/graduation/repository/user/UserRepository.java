@@ -1,7 +1,9 @@
 package topjava.graduation.repository.user;
 
 import topjava.graduation.model.User;
+import topjava.graduation.model.Vote;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface UserRepository {
@@ -11,9 +13,9 @@ public interface UserRepository {
 
     User get(int id);
 
-    User getWithVotes(int id);
-
     User getByEmail(String email);
+
+    Vote getVote(int id);
 
     List<User> getAll();
 }

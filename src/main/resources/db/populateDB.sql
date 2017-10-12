@@ -23,9 +23,9 @@ INSERT INTO menus (id_restaurant,date) VALUES
   (100004,today());                                         --100009
 
 
-INSERT INTO votes (id_user, id_menu, date) VALUES
-  (100000,100006,date_sub(today(),INTERVAL 1 DAY)),         --1000010
-  (100000,100008,today());                                  --1000011
+INSERT INTO votes (id_user, id_restaurant, date) VALUES
+  (100000,100003,date_sub(today(),INTERVAL 1 DAY)),         --1000010
+  (100000,100003,today());                                  --1000011
 
 
 INSERT INTO dishes (name, id_menu, cost) VALUES
