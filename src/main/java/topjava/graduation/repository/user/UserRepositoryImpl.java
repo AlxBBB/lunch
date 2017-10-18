@@ -53,6 +53,11 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public Vote getVote(int id) {
-      return voteRepository.getVote(id, LocalDate.now());
+      return voteRepository.get(id, LocalDate.now());
+    }
+
+    @Override
+    public Vote setVote(int user_id, int restaurant_id) {
+        return voteRepository.set(user_id,restaurant_id);
     }
 }

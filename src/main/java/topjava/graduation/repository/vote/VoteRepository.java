@@ -12,6 +12,7 @@ public interface VoteRepository {
 
     Vote get(int id);
 
-    Vote getVote(int user_id, LocalDate date);
+    Vote get(int user_id, LocalDate date);
 
+    Vote set(int user_id, int restaurant_id);
 }

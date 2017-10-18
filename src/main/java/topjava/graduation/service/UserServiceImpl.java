@@ -14,6 +14,7 @@ import topjava.graduation.repository.user.UserRepository;
 
 import java.util.List;
 
+import static topjava.graduation.ValidationUtil.checkChange;
 import static topjava.graduation.ValidationUtil.checkNotFound;
 import static topjava.graduation.ValidationUtil.checkNotFoundWithId;
 
@@ -53,10 +54,17 @@ public class UserServiceImpl implements UserService  {  //, UserDetailsService
     }
 
     @Override
+    public Vote setVote(int user_id, int restaurant_id) {
+        return checkChange(repository.setVote(user_id,restaurant_id),"Vote not be saved");
+    }
+
+    @Override
     public User getByEmail(String email) throws NotFoundException {
         Assert.notNull(email, "email must not be null");
         return checkNotFound(repository.getByEmail(email), "email=" + email);
     }
+
+
 
     //@Cacheable("users")
     @Override

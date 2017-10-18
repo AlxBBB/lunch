@@ -22,12 +22,6 @@ public class UserController {
         this.service = service;
     }
 
-    @GetMapping("/")
-    public String root() {
-        return "redirect:test";
-    }
-
-
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public User get(@PathVariable("id") int id) {
         log.info("get {}", id);
@@ -39,6 +33,13 @@ public class UserController {
         log.info("get vote today by {}", id);
         return service.getVote(id);
     }
+
+    @PostMapping(value = "/{id_user}/vote/{id_restaurant}")
+    public void setVote(@PathVariable("id_user") int id_user, @PathVariable("id_restaurant") int id_restaurant) {
+        log.info("set vote today by  user={}  restaurant={}", id_user, id_restaurant);
+        service.setVote(id_user,id_restaurant);
+    }
+
 
     @DeleteMapping(value = "/{id}")
     public void delete(@PathVariable("id") int id) {

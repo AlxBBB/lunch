@@ -17,5 +17,7 @@ public interface UserRepository {
 
     Vote getVote(int id);
 
+    Vote setVote(int user_id, int restaurant_id);
+
     List<User> getAll();
 }

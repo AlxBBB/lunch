@@ -21,6 +21,8 @@ public interface UserService {
 
     Vote getVote(int id) throws NotFoundException;
 
+    Vote setVote(int user_id, int restaurant_id);
+
     //void evictCache();
 
     List<User> getAll();

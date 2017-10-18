@@ -1,6 +1,7 @@
 package topjava.graduation;
 
 
+import topjava.graduation.exception.NotChangedException;
 import topjava.graduation.exception.NotFoundException;
 import topjava.graduation.model.HasId;
 
@@ -26,6 +27,13 @@ public class ValidationUtil {
         if (!found) {
             throw new NotFoundException(arg);
         }
+    }
+
+    public static <T> T checkChange(T object, String arg) {
+        if (object==null) {
+            throw new NotChangedException(arg);
+        }
+        return object;
     }
 
     public static void checkNew(HasId bean) {
