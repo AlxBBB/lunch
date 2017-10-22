@@ -1,9 +1,16 @@
-package topjava.graduation;
+package topjava.graduation.matcher;
 
 import org.junit.Assert;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.ResultMatcher;
+import topjava.graduation.TestUtil;
+import topjava.graduation.web.json.JsonUtil;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 /**
  * This test Matcher assert equality of beans and collections
@@ -59,7 +66,7 @@ public class BeanMatcher<T> {
         }
     }
 
-  /*  private T fromJsonValue(String json) {
+    private T fromJsonValue(String json) {
         return JsonUtil.readValue(json, entityClass);
     }
 
@@ -68,8 +75,8 @@ public class BeanMatcher<T> {
     }
 
     public T fromJsonAction(ResultActions action) throws UnsupportedEncodingException {
-        return fromJsonValue(TestUtil.getContent(action));
-    }*/
+            return fromJsonValue(TestUtil.getContent(action));
+    }
 
     public void assertEquals(T expected, T actual) {
         Assert.assertEquals(wrap(expected), wrap(actual));
@@ -87,7 +94,7 @@ public class BeanMatcher<T> {
         return list.stream().map(this::wrap).collect(Collectors.toList());
     }
 
-  /*  public ResultMatcher contentMatcher(T expect) {
+    public ResultMatcher contentMatcher(T expect) {
         return content().string(
                 new TestMatcher<T>(expect) {
                     @Override
@@ -98,7 +105,7 @@ public class BeanMatcher<T> {
                     }
                 });
     }
-
+/*
     @SafeVarargs
     public final ResultMatcher contentListMatcher(T... expected) {
         return contentListMatcher(Arrays.asList(expected));

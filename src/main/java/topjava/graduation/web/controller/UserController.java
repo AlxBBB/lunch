@@ -12,7 +12,7 @@ import topjava.graduation.service.UserService;
 @RestController
 @RequestMapping(UserController.REST_URL)
 public class UserController {
-    static final String REST_URL = "/user";
+    public static final String REST_URL = "/user";
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     private final UserService service;
@@ -34,10 +34,10 @@ public class UserController {
         return service.getVote(id);
     }
 
-    @PostMapping(value = "/{id_user}/vote/{id_restaurant}")
-    public void setVote(@PathVariable("id_user") int id_user, @PathVariable("id_restaurant") int id_restaurant) {
+    @PutMapping(value = "/{id_user}/vote/{id_restaurant}")
+    public Vote setVote(@PathVariable("id_user") int id_user, @PathVariable("id_restaurant") int id_restaurant) {
         log.info("set vote today by  user={}  restaurant={}", id_user, id_restaurant);
-        service.setVote(id_user,id_restaurant);
+        return service.setVote(id_user,id_restaurant);
     }
 
 

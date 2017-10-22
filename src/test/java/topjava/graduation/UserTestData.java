@@ -1,6 +1,7 @@
 package topjava.graduation;
 
 
+import topjava.graduation.matcher.BeanMatcher;
 import topjava.graduation.model.Role;
 import topjava.graduation.model.User;
 
