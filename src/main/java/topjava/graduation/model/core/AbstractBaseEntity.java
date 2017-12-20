@@ -1,6 +1,7 @@
-package topjava.graduation.model;
+package topjava.graduation.model.core;
 
 import org.hibernate.Hibernate;
+
 import javax.persistence.*;
 
 /**

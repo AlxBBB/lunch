@@ -6,7 +6,7 @@ import org.springframework.util.Assert;
 import topjava.graduation.exception.NotFoundException;
 import topjava.graduation.model.Restaurant;
 import topjava.graduation.repository.restaurant.RestaurantRepository;
-import static topjava.graduation.ValidationUtil.*;
+import static topjava.graduation.util.ValidationUtil.*;
 
 @Service
 public class RestaurantServiceImpl  implements RestaurantService {

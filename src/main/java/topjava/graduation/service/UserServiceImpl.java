@@ -5,22 +5,27 @@ import org.springframework.cache.annotation.CacheEvict;
 //import org.springframework.cache.annotation.Cacheable;
 //import org.springframework.security.core.userdetails.UserDetailsService;
 //import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import topjava.graduation.exception.NotFoundException;
 import topjava.graduation.model.User;
 import topjava.graduation.model.Vote;
 import topjava.graduation.repository.user.UserRepository;
+import topjava.graduation.util.AuthorizedUser;
+import topjava.graduation.util.PasswordUtil;
 
 import java.util.List;
 
-import static topjava.graduation.ValidationUtil.checkChange;
-import static topjava.graduation.ValidationUtil.checkNotFound;
-import static topjava.graduation.ValidationUtil.checkNotFoundWithId;
+import static topjava.graduation.util.ValidationUtil.checkChange;
+import static topjava.graduation.util.ValidationUtil.checkNotFound;
+import static topjava.graduation.util.ValidationUtil.checkNotFoundWithId;
 
 
 @Service("userService")
-public class UserServiceImpl implements UserService  {  //, UserDetailsService
+public class UserServiceImpl implements UserService , UserDetailsService {  //, UserDetailsService
 
     private final UserRepository repository;
 
@@ -33,7 +38,8 @@ public class UserServiceImpl implements UserService  {  //, UserDetailsService
     @Override
     public User save(User user) {
         Assert.notNull(user, "user must not be null");
-        //return repository.save(prepareToSave(user));
+        user.setEmail(user.getEmail().toLowerCase());
+        user.setPassword(PasswordUtil.encode(user.getPassword()));
         return repository.save(user);
     }
 
@@ -61,7 +67,7 @@ public class UserServiceImpl implements UserService  {  //, UserDetailsService
     @Override
     public User getByEmail(String email) throws NotFoundException {
         Assert.notNull(email, "email must not be null");
-        return checkNotFound(repository.getByEmail(email), "email=" + email);
+        return checkNotFound(repository.getByEmail(email.toLowerCase()), "email=" + email);
     }
 
 
@@ -71,6 +77,9 @@ public class UserServiceImpl implements UserService  {  //, UserDetailsService
     public List<User> getAll() {
         return repository.getAll();
     }
+
+
+
 
 
     /*@CacheEvict(value = "users", allEntries = true)
@@ -89,14 +98,13 @@ public class UserServiceImpl implements UserService  {  //, UserDetailsService
 
 
 
-  /*  @Override
+    @Override
     public AuthorizedUser loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = repository.getByEmail(email.toLowerCase());
         if (user == null) {
             throw new UsernameNotFoundException("User " + email + " is not found");
         }
         return new AuthorizedUser(user);
-    } */
-
+    }
 
 }

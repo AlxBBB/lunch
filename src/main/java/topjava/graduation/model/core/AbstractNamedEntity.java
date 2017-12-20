@@ -1,7 +1,9 @@
-package topjava.graduation.model;
+package topjava.graduation.model.core;
 
 //import org.hibernate.validator.constraints.SafeHtml;
 //import ru.javawebinar.topjava.View;
+
+import topjava.graduation.model.core.AbstractBaseEntity;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;

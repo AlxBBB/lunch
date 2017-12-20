@@ -2,15 +2,15 @@ package topjava.graduation.model;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import topjava.graduation.model.core.AbstractBaseEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "menus", uniqueConstraints = {@UniqueConstraint(columnNames = {"id_restaurant", "date"}, name = "menus_unique_restaurant_date_idx")})
+@Table(name = "menus", uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "date"}, name = "menus_unique_restaurant_date_idx")})
 public class Menu extends AbstractBaseEntity {
 
     @Column(name = "date", nullable = false)
@@ -27,7 +27,7 @@ public class Menu extends AbstractBaseEntity {
   // protected List<Vote> votes;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_restaurant", nullable = false)
+    @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     //@NotNull(groups = View.Persist.class)
     private Restaurant restaurant;

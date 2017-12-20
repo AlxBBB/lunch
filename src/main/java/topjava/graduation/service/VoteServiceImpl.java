@@ -7,7 +7,7 @@ import topjava.graduation.exception.NotFoundException;
 import topjava.graduation.model.Vote;
 import topjava.graduation.repository.vote.VoteRepository;
 
-import static topjava.graduation.ValidationUtil.checkNotFoundWithId;
+import static topjava.graduation.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
 public class VoteServiceImpl implements VoteService {

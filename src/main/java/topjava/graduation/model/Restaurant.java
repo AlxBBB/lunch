@@ -1,7 +1,8 @@
 package topjava.graduation.model;
 
+import topjava.graduation.model.core.AbstractNamedEntity;
+
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "restaurants", uniqueConstraints = {@UniqueConstraint(columnNames = {"name"}, name = "restaurants_unique_name_idx")})

@@ -16,19 +16,19 @@ INSERT INTO restaurants (name) VALUES
   ('Дак гриль'),                                            --100004
   ('Пельмени');                                             --100005
 
-INSERT INTO menus (id_restaurant,date) VALUES
+INSERT INTO menus (restaurant_id,date) VALUES
   (100003,date_sub(today(),INTERVAL 1 DAY )),               --100006
   (100005,date_sub(today(),INTERVAL 1 DAY )),               --100007
   (100003,today()),                                         --100008
   (100004,today());                                         --100009
 
 
-INSERT INTO votes (id_user, id_restaurant, date) VALUES
+INSERT INTO votes (user_id, restaurant_id, date) VALUES
   (100000,100003,date_sub(today(),INTERVAL 1 DAY)),         --1000010
   (100000,100003,today());                                  --1000011
 
 
-INSERT INTO dishes (name, id_menu, cost) VALUES
+INSERT INTO dishes (name, menu_id, cost) VALUES
   ('Картошка фри',100006,7000),
   ('Чизбургер',100006,12000),
   ('Кола',100006,5000),

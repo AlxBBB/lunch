@@ -11,7 +11,7 @@ import topjava.graduation.service.MenuService;
 @RestController
 @RequestMapping(MenuController.REST_URL)
 public class MenuController {
-    static final String REST_URL = "/menu";
+    public static final String REST_URL = "/menus";
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     private final MenuService service;

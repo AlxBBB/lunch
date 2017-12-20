@@ -1,9 +1,9 @@
-package topjava.graduation;
+package topjava.graduation.util;
 
 
 import topjava.graduation.exception.NotChangedException;
 import topjava.graduation.exception.NotFoundException;
-import topjava.graduation.model.HasId;
+import topjava.graduation.model.core.HasId;
 
 public class ValidationUtil {
 

@@ -11,7 +11,7 @@ import topjava.graduation.service.RestaurantService;
 @RestController
 @RequestMapping(RestaurantController.REST_URL)
 public class RestaurantController {
-    static final String REST_URL = "/restaurant";
+    static final String REST_URL = "/restaurants";
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     private final RestaurantService service;

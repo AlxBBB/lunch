@@ -4,14 +4,10 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
-import topjava.graduation.model.Role;
 import topjava.graduation.model.Vote;
 import topjava.graduation.service.UserService;
 import topjava.graduation.web.json.JsonUtil;
 
-import java.util.Collections;
-
-import static org.omg.PortableServer.IdAssignmentPolicyValue.USER_ID;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;

@@ -1,4 +1,4 @@
-package topjava.graduation.model;
+package topjava.graduation.model.core;
 
 public interface HasId {
     Integer getId();

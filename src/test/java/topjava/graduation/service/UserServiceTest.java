@@ -4,13 +4,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import topjava.graduation.exception.NotFoundException;
-import topjava.graduation.model.Role;
+import topjava.graduation.model.core.Role;
 import topjava.graduation.model.User;
 import java.util.Arrays;
 
 import static topjava.graduation.UserTestData.*;
-import static topjava.graduation.VoteTestData.MATCHER_VOTE;
-import static topjava.graduation.VoteTestData.USER1_VOTES;
 
 //import static org.hsqldb.Tokens.ADMIN;
 

@@ -2,12 +2,12 @@ package topjava.graduation;
 
 
 import topjava.graduation.matcher.BeanMatcher;
-import topjava.graduation.model.Role;
+import topjava.graduation.model.core.Role;
 import topjava.graduation.model.User;
 
 import java.util.Objects;
 
-import static topjava.graduation.model.AbstractBaseEntity.START_SEQ;
+import static topjava.graduation.model.core.AbstractBaseEntity.START_SEQ;
 
 
 public class UserTestData {

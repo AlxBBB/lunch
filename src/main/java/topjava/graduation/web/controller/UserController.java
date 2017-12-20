@@ -12,7 +12,7 @@ import topjava.graduation.service.UserService;
 @RestController
 @RequestMapping(UserController.REST_URL)
 public class UserController {
-    public static final String REST_URL = "/user";
+    public static final String REST_URL = "/users";
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     private final UserService service;

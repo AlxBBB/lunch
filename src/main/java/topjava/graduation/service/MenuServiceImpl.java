@@ -7,7 +7,7 @@ import topjava.graduation.exception.NotFoundException;
 import topjava.graduation.model.Menu;
 import topjava.graduation.repository.menu.MenuRepository;
 
-import static topjava.graduation.ValidationUtil.checkNotFoundWithId;
+import static topjava.graduation.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
 public class MenuServiceImpl implements MenuService{

@@ -5,12 +5,11 @@ import topjava.graduation.model.Vote;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 
 import static topjava.graduation.RestaurantTestData.*;
 import static topjava.graduation.UserTestData.USER1;
-import static topjava.graduation.model.AbstractBaseEntity.START_SEQ;
+import static topjava.graduation.model.core.AbstractBaseEntity.START_SEQ;
 
 public class VoteTestData {
     public static final BeanMatcher<Vote> MATCHER_VOTE = BeanMatcher.of(Vote.class);
