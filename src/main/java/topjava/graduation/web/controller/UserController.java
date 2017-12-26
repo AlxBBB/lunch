@@ -4,10 +4,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import topjava.graduation.model.User;
 import topjava.graduation.model.Vote;
+import topjava.graduation.model.core.Role;
+import topjava.graduation.repository.to.UserTo;
 import topjava.graduation.service.UserService;
+import topjava.graduation.util.AuthorizedUser;
 
 @RestController
 @RequestMapping(UserController.REST_URL)
@@ -22,29 +26,34 @@ public class UserController {
         this.service = service;
     }
 
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public User get(@PathVariable("id") int id) {
+    @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+    public User get(@AuthenticationPrincipal AuthorizedUser authorizedUser) {
+        int id=authorizedUser.getId();
         log.info("get {}", id);
         return service.get(id);
     }
 
-    @GetMapping(value = "/{id}/vote", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Vote getVote(@PathVariable("id") int id) {
+
+    @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void create(@RequestBody User user) {
+        log.info("create {}", user.getName());
+        user.setRole(Role.ROLE_USER);
+        service.save(user);
+    }
+
+
+    @GetMapping(value = "/vote", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Vote getVote(@AuthenticationPrincipal AuthorizedUser authorizedUser) {
+        int id=authorizedUser.getId();
         log.info("get vote today by {}", id);
         return service.getVote(id);
     }
 
-    @PutMapping(value = "/{id_user}/vote/{id_restaurant}")
-    public Vote setVote(@PathVariable("id_user") int id_user, @PathVariable("id_restaurant") int id_restaurant) {
-        log.info("set vote today by  user={}  restaurant={}", id_user, id_restaurant);
-        return service.setVote(id_user,id_restaurant);
-    }
-
-
-    @DeleteMapping(value = "/{id}")
-    public void delete(@PathVariable("id") int id) {
-        log.info("delete {}", id);
-        service.delete(id);
+    @PutMapping(value = "/vote/{id_menu}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Vote setVote(@AuthenticationPrincipal AuthorizedUser authorizedUser, @PathVariable("id_menu") int id_restaurant) {
+        int id=authorizedUser.getId();
+        log.info("set vote today by  user={}  restaurant={}", id, id_restaurant);
+        return service.setVote(id,id_restaurant);
     }
 
 }

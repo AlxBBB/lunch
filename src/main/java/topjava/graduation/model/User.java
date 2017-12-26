@@ -2,6 +2,8 @@ package topjava.graduation.model;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Cache;
 import topjava.graduation.model.core.AbstractNamedEntity;
 import topjava.graduation.model.core.Role;
 //import org.springframework.util.CollectionUtils;
@@ -13,10 +15,10 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 
-//@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 
 @Entity
-@Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email", name = "users_unique_email_idx")})
+@Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = {"email"}, name = "users_unique_email_idx")})
 public class User extends AbstractNamedEntity {
 
     //public static final String DELETE = "User.delete";
@@ -74,7 +76,7 @@ public class User extends AbstractNamedEntity {
         return password;
     }
 
-    public void setRoles(Role role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 

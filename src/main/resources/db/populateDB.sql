@@ -7,9 +7,9 @@ DELETE FROM users;
 ALTER SEQUENCE global_seq RESTART WITH 100000;
 
 INSERT INTO users (name, email, password, role) VALUES
-  ('Посетитель', 'user@mail.ru', 'uPassword', 'ROLE_USER'), --100000
-  ('Ценитель', 'expert@mail.ru', 'ePassword', 'ROLE_USER'), --100001
-  ('Админ', 'admin@mail.ru', 'aPassword', 'ROLE_ADMIN');    --100002
+  ('Посетитель', 'user@mail.ru', '$2a$10$3IV47u8r8/1rckRkoFa20e27KDLspubVUadlUNAsxoV.23uXLf9Vm', 'ROLE_USER'), --100000   uPassword
+  ('Ценитель', 'expert@mail.ru', '$2a$10$QxP8rEUBNGYL/KGRW3KRneHYekbAd.h84uHqRQbdoSIQc1Alc0nO6', 'ROLE_USER'), --100001   ePassword
+  ('Админ', 'admin@mail.ru', '$2a$10$6IrxQ86A6qf4ke.5hmOc4OYzSdSROyb4gQpklli8fpVfJsiyog8q2', 'ROLE_ADMIN');    --100002   aPassword
 
 INSERT INTO restaurants (name) VALUES
   ('Биг Мак'),                                              --100003
@@ -42,7 +42,6 @@ INSERT INTO dishes (name, menu_id, cost) VALUES
   ('Утка по Пекински',100009,32000),
   ('Яйцо вареное',100009,8000),
   ('Какао',100009,8500);
-
 
 
 

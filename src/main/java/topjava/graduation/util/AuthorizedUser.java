@@ -1,12 +1,16 @@
 package topjava.graduation.util;
 
+import org.hibernate.mapping.Array;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import topjava.graduation.model.User;
 import topjava.graduation.repository.to.UserTo;
 
 
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 
 import static java.util.Objects.requireNonNull;
 
@@ -16,7 +20,8 @@ public class AuthorizedUser extends org.springframework.security.core.userdetail
     private UserTo userTo;
 
     public AuthorizedUser(User user) {
-        super(user.getEmail(), user.getPassword(), true, true, true, true, Collections.singleton(user.getRole()));
+        super(user.getEmail(), user.getPassword(), true, true, true, true,
+                Arrays.asList(user.getRole()));
         this.userTo = new UserTo(user.getId(), user.getName(), user.getEmail(), user.getPassword());
     }
 
@@ -35,7 +40,8 @@ public class AuthorizedUser extends org.springframework.security.core.userdetail
         return user;
     }
 
- /*   public int getId() {
+
+    public int getId() {
         return userTo.getId();
     }
 
@@ -43,9 +49,6 @@ public class AuthorizedUser extends org.springframework.security.core.userdetail
         return get().userTo.getId();
     }
 
-    public static int getCaloriesPerDay() {
-        return get().userTo.getCaloriesPerDay();
-    }
 
     public void update(UserTo newTo) {
         userTo = newTo;
@@ -53,7 +56,7 @@ public class AuthorizedUser extends org.springframework.security.core.userdetail
 
     public UserTo getUserTo() {
         return userTo;
-    }*/
+    }
 
     @Override
     public String toString() {

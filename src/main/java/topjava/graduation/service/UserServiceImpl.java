@@ -2,10 +2,7 @@ package topjava.graduation.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
-//import org.springframework.cache.annotation.Cacheable;
-//import org.springframework.security.core.userdetails.UserDetailsService;
-//import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -13,12 +10,14 @@ import org.springframework.util.Assert;
 import topjava.graduation.exception.NotFoundException;
 import topjava.graduation.model.User;
 import topjava.graduation.model.Vote;
+import topjava.graduation.repository.to.UserTo;
 import topjava.graduation.repository.user.UserRepository;
 import topjava.graduation.util.AuthorizedUser;
-import topjava.graduation.util.PasswordUtil;
 
 import java.util.List;
 
+import static topjava.graduation.util.UserUtil.prepareToSave;
+import static topjava.graduation.util.UserUtil.updateFromTo;
 import static topjava.graduation.util.ValidationUtil.checkChange;
 import static topjava.graduation.util.ValidationUtil.checkNotFound;
 import static topjava.graduation.util.ValidationUtil.checkNotFoundWithId;
@@ -38,9 +37,7 @@ public class UserServiceImpl implements UserService , UserDetailsService {  //, 
     @Override
     public User save(User user) {
         Assert.notNull(user, "user must not be null");
-        user.setEmail(user.getEmail().toLowerCase());
-        user.setPassword(PasswordUtil.encode(user.getPassword()));
-        return repository.save(user);
+        return repository.save(prepareToSave(user));
     }
 
     @CacheEvict(value = "users", allEntries = true)
@@ -72,29 +69,26 @@ public class UserServiceImpl implements UserService , UserDetailsService {  //, 
 
 
 
-    //@Cacheable("users")
+    @Cacheable("users")
     @Override
     public List<User> getAll() {
         return repository.getAll();
     }
 
 
-
-
-
-    /*@CacheEvict(value = "users", allEntries = true)
-    @Transactional
-    @Override
+/*    @CacheEvict(value = "users", allEntries = true)
+//    @Transactional
     public void update(UserTo userTo) {
         User user = updateFromTo(get(userTo.getId()), userTo);
         repository.save(prepareToSave(user));
-    }*/
+    }
+*/
 
-   /* @CacheEvict(value = "users", allEntries = true)
-    @Override
+   @CacheEvict(value = "users", allEntries = true)
+   @Override
     public void evictCache() {
         // only for evict cache
-    }*/
+    }
 
 
 

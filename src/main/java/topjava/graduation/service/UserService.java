@@ -6,6 +6,7 @@ package topjava.graduation.service;
 import topjava.graduation.exception.NotFoundException;
 import topjava.graduation.model.User;
 import topjava.graduation.model.Vote;
+import topjava.graduation.repository.to.UserTo;
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ public interface UserService {
 
     Vote setVote(int user_id, int restaurant_id);
 
-    //void evictCache();
+    void evictCache();
 
     List<User> getAll();
 

@@ -3,6 +3,7 @@ package topjava.graduation.service;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import topjava.graduation.exception.NotFoundException;
 import topjava.graduation.model.core.Role;
 import topjava.graduation.model.User;
@@ -33,6 +34,14 @@ public class UserServiceTest extends AbstractServiceTest {
     @Test
     public void testCreate() throws Exception {
         User newUser = new User(null, "New", "new@gmail.com", "newPass", Role.ROLE_USER);
+        User created = service.save(newUser);
+        newUser.setId(created.getId());
+        MATCHER_USER.assertListEquals(Arrays.asList(newUser, ADMIN, USER1, USER2), service.getAll());
+    }
+
+    @Test(expected = DataIntegrityViolationException.class)
+    public void testCreateDublEmail() throws Exception {
+        User newUser = new User(null, "New", USER1.getEmail(), "newPass", Role.ROLE_USER);
         User created = service.save(newUser);
         newUser.setId(created.getId());
         MATCHER_USER.assertListEquals(Arrays.asList(newUser, ADMIN, USER1, USER2), service.getAll());

@@ -22,6 +22,7 @@
         <hibernate.version>5.2.10.Final</hibernate.version>
         <hibernate-validator.version>6.0.2.Final</hibernate-validator.version>
         <hsqldb.version>2.4.0</hsqldb.version>
+        <ehcache.version>2.10.4</ehcache.version>
 
         <tomcat.version>8.5.20</tomcat.version>
         <jackson-json.version>2.9.1</jackson-json.version>
@@ -121,7 +122,16 @@
             <artifactId>hsqldb</artifactId>
             <version>${hsqldb.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-ehcache</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+        <!--<dependency>
+            <groupId>net.sf.ehcache</groupId>
+            <artifactId>ehcache</artifactId>
+            <version>${ehcache.version}</version>
+        </dependency>-->
 
         <!--Test-->
         <dependency>
@@ -146,6 +156,11 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <version>${spring-security.version}</version>
         </dependency>
 
         <!-- Web -->

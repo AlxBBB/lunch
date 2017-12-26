@@ -6,33 +6,38 @@
 	http://www.springframework.org/schema/security
 	http://www.springframework.org/schema/security/spring-security.xsd">
 
-   <http pattern="/**" security="none"/>
+    <http pattern="/resources/**" security="none"/>
 
 
-<!--    <http pattern="/rest/**" use-expressions="true" name="restSecurityFilterChain" create-session="stateless">
-        <http-basic/>
-        <intercept-url pattern="/rest/admin/**" access="hasRole('ROLE_ADMIN')"/>
-        <intercept-url pattern="/**" access="isAuthenticated()"/>
-        <csrf disabled="true"/>
-    </http>
+    <!--    <http pattern="/rest/**" use-expressions="true" name="restSecurityFilterChain" create-session="stateless">
+            <http-basic/>
+            <intercept-url pattern="/rest/admin/**" access="hasRole('ROLE_ADMIN')"/>
+            <intercept-url pattern="/**" access="isAuthenticated()"/>
+            <csrf disabled="true"/>
+        </http> -->
 
-    <http>
+    <http use-expressions="true" name="restSecurityFilterChain" entry-point-ref="customEntryPoint"
+          create-session="stateless">
         <intercept-url pattern="/login" access="isAnonymous()"/>
-        <intercept-url pattern="/register" access="isAnonymous()"/>
+        <intercept-url pattern="/users/register" access="isAnonymous()"/>
+        <intercept-url pattern="/" access="isAnonymous()"/>
 
-        <intercept-url pattern="/**/admin/**" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/users/vote/**" access="hasRole('ROLE_USER')"/>
         <intercept-url pattern="/**" access="isAuthenticated()"/>
 
-        <form-login login-page="/login" default-target-url="/meals"
+
+        <form-login login-page="/login" default-target-url="/"
                     authentication-failure-url="/login?error=true"
                     login-processing-url="/spring_security_check"/>
         <logout logout-success-url="/login"/>
+        <csrf disabled="true"/>
     </http>
--->
 
 
+    <beans:bean id="customEntryPoint" class="topjava.graduation.util.CustomEntryPoint">
+        <beans:constructor-arg value="/login"/>
+    </beans:bean>
     <beans:bean class="topjava.graduation.util.PasswordUtil" id="passwordEncoder" factory-method="getPasswordEncoder"/>
-
     <authentication-manager>
         <authentication-provider user-service-ref="userService">
             <password-encoder ref="passwordEncoder"/>

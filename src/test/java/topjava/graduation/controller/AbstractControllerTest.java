@@ -1,6 +1,7 @@
 package topjava.graduation.controller;
 
 
+import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -11,10 +12,11 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
+import topjava.graduation.service.UserService;
+import topjava.graduation.util.JpaUtil;
 
 import javax.annotation.PostConstruct;
-
-//import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @ContextConfiguration({
@@ -34,8 +36,13 @@ abstract public class AbstractControllerTest {
         CHARACTER_ENCODING_FILTER.setForceEncoding(true);
     }
 
-
     protected MockMvc mockMvc;
+
+    @Autowired
+    private JpaUtil jpaUtil;
+
+    @Autowired
+    UserService userService;
 
 
     @Autowired
@@ -46,10 +53,18 @@ abstract public class AbstractControllerTest {
         mockMvc = MockMvcBuilders
                 .webAppContextSetup(webApplicationContext)
                 .addFilter(CHARACTER_ENCODING_FILTER)
-              //  .apply(springSecurity())
+                .apply(springSecurity())
                 .build();
     }
 
+
+
+    @Before
+    public void setUp() {
+        userService.evictCache();
+        jpaUtil.clear2ndLevelHibernateCache();
+
+    }
 
     /*protected String getMessage(String code) {
         return messageUtil.getMessage(code, MessageUtil.RU_LOCALE);

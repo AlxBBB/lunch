@@ -4,6 +4,7 @@ package topjava.graduation;
 import topjava.graduation.matcher.BeanMatcher;
 import topjava.graduation.model.core.Role;
 import topjava.graduation.model.User;
+import topjava.graduation.web.json.JsonUtil;
 
 import java.util.Objects;
 
@@ -19,6 +20,7 @@ public class UserTestData {
     public static final User USER2 = new User(USER2_ID, "Ценитель", "expert@mail.ru", "ePassword",  Role.ROLE_USER);
     public static final User ADMIN = new User(ADMIN_ID, "Админ", "admin@mail.ru", "aPassword",  Role.ROLE_ADMIN);
 
+
     public static final BeanMatcher<User> MATCHER_USER = BeanMatcher.of(User.class,
             (expected, actual) -> expected == actual ||
                     (Objects.equals(expected.getId(), actual.getId())
@@ -28,7 +30,7 @@ public class UserTestData {
                     )
     );
 
-/*    public static String jsonWithPassword(User user, String passw) {
+    public static String jsonWithPassword(User user, String passw) {
         return JsonUtil.writeWithExtraProps(user, "password", passw);
-    }*/
+    }
 }
