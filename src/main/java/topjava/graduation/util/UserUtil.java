@@ -3,7 +3,7 @@ package topjava.graduation.util;
 
 import topjava.graduation.model.User;
 import topjava.graduation.model.core.Role;
-import topjava.graduation.repository.to.UserTo;
+import topjava.graduation.to.UserTo;
 
 public class UserUtil {
 

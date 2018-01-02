@@ -1,4 +1,4 @@
-package topjava.graduation.repository.to;
+package topjava.graduation.to;
 
 
 import topjava.graduation.model.core.HasId;

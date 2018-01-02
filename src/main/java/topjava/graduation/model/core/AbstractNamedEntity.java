@@ -3,6 +3,7 @@ package topjava.graduation.model.core;
 //import org.hibernate.validator.constraints.SafeHtml;
 //import ru.javawebinar.topjava.View;
 
+import org.springframework.data.domain.Sort;
 import topjava.graduation.model.core.AbstractBaseEntity;
 
 import javax.persistence.Column;
@@ -12,6 +13,7 @@ import javax.validation.constraints.NotBlank;
 
 @MappedSuperclass
 public abstract class AbstractNamedEntity extends AbstractBaseEntity {
+    public static final Sort SORT_NAME = new Sort("name");
 
     @NotBlank
     @Column(name = "name", nullable = false)

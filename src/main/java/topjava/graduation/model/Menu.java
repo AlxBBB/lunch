@@ -21,11 +21,6 @@ public class Menu extends AbstractBaseEntity {
     @OrderBy("cost DESC")
     protected List<Dish> dishes;
 
-
-  //  @OneToMany(fetch = FetchType.LAZY, mappedBy = "menu")
-  //  @OrderBy("date DESC")
-  // protected List<Vote> votes;
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -50,5 +45,7 @@ public class Menu extends AbstractBaseEntity {
         this.date = date;
     }
 
-
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
 }

@@ -10,14 +10,12 @@ import org.springframework.util.Assert;
 import topjava.graduation.exception.NotFoundException;
 import topjava.graduation.model.User;
 import topjava.graduation.model.Vote;
-import topjava.graduation.repository.to.UserTo;
 import topjava.graduation.repository.user.UserRepository;
 import topjava.graduation.util.AuthorizedUser;
 
 import java.util.List;
 
 import static topjava.graduation.util.UserUtil.prepareToSave;
-import static topjava.graduation.util.UserUtil.updateFromTo;
 import static topjava.graduation.util.ValidationUtil.checkChange;
 import static topjava.graduation.util.ValidationUtil.checkNotFound;
 import static topjava.graduation.util.ValidationUtil.checkNotFoundWithId;

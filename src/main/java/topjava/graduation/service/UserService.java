@@ -6,7 +6,6 @@ package topjava.graduation.service;
 import topjava.graduation.exception.NotFoundException;
 import topjava.graduation.model.User;
 import topjava.graduation.model.Vote;
-import topjava.graduation.repository.to.UserTo;
 
 import java.util.List;
 

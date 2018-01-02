@@ -1,16 +1,12 @@
 package topjava.graduation.util;
 
-import org.hibernate.mapping.Array;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import topjava.graduation.model.User;
-import topjava.graduation.repository.to.UserTo;
+import topjava.graduation.to.UserTo;
 
 
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
 
 import static java.util.Objects.requireNonNull;
 
