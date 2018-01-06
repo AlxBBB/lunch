@@ -32,5 +32,4 @@ public class RestaurantTestData {
     public static final Menu MENU4 = new Menu(MENU4_ID, LocalDate.now(), RESTAURANT2);
 
     public static final List<Restaurant> RESTAURANTS=Arrays.asList(RESTAURANT1,RESTAURANT2,RESTAURANT3);
-    //public static final List<Menu> RESTAURANT1_MENUS=Arrays.asList(MENU1,MENU2,MENU3,MENU4);
 }

@@ -1,5 +1,6 @@
 package topjava.graduation.controller;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -26,11 +27,18 @@ import static topjava.graduation.web.controller.UserController.REST_URL;
 
 public class UserControllerTest extends AbstractControllerTest {
 
+    @Autowired
+    UserService userService;
 
+    @Before
+    public void setUp() {
+        userService.evictCache();
+        jpaUtil.clear2ndLevelHibernateCache();
+    }
 
     @Test
     public void testGet() throws Exception {
-        mockMvc.perform(get(REST_URL + "/")
+        mockMvc.perform(get(REST_URL)
                 .with(userAuth(USER1)))
                 .andExpect(status().isOk())
                 .andDo(print())
@@ -40,7 +48,7 @@ public class UserControllerTest extends AbstractControllerTest {
 
     @Test
     public void testGetNotAuth() throws Exception {
-        mockMvc.perform(get(REST_URL + "/"))
+        mockMvc.perform(get(REST_URL))
                 .andExpect(status().isUnauthorized())
                 .andDo(print());
     }

@@ -28,7 +28,7 @@ public class Menu extends AbstractBaseEntity {
     private Restaurant restaurant;
 
 
-    public Menu(Integer id, @NotNull LocalDate date, Restaurant restaurant) {
+    public Menu(Integer id, @NotNull LocalDate date, @NotNull Restaurant restaurant) {
         super(id);
         this.date = date;
         this.restaurant = restaurant;
@@ -39,6 +39,14 @@ public class Menu extends AbstractBaseEntity {
 
     public LocalDate getDate() {
         return date;
+    }
+
+    public void setDishes(List<Dish> dishes) {
+        this.dishes = dishes;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
     }
 
     public void setDate(LocalDate date) {

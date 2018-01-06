@@ -3,6 +3,7 @@ package topjava.graduation.web.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping(RestaurantController.REST_URL)
 public class RestaurantController {
-    static final String REST_URL = "/restaurants";
+    public static final String REST_URL = "/restaurants";
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     private final RestaurantService service;
@@ -32,12 +33,12 @@ public class RestaurantController {
     }
 
 
-    @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Restaurant> getAll() {
         return service.getAll();
     }
 
-    @PostMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/admin", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Restaurant createOrUpdate(@RequestBody Restaurant restaurant) {
         return service.save(restaurant);
     }
@@ -47,8 +48,8 @@ public class RestaurantController {
         return service.getAllMenu(LocalDate.now());
     }
 
-    @GetMapping(value = "/menus/admin/{date}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Menu> getAllMenuByDate(@PathVariable("date") LocalDate date) {
+    @GetMapping(value = "/menus/admin", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Menu> getAllMenuByDate(@RequestParam(value = "date", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         return service.getAllMenu(date);
     }
 
@@ -57,16 +58,15 @@ public class RestaurantController {
         return service.getMenu(restaurant_id, LocalDate.now());
     }
 
-    @GetMapping(value = "/{id}/menus/{date}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Menu getMenuByDate(@PathVariable("id") int restaurant_id, @PathVariable("date") LocalDate date) {
+    @GetMapping(value = "/{id}/menus/admin", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Menu getMenuByDate(@PathVariable("id") int restaurant_id, @RequestParam(value = "date", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         return service.getMenu(restaurant_id, date);
     }
 
     @PostMapping(value = "/{id}/menus/admin", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Menu getMenu(@RequestBody Menu menu, @PathVariable("id") int restaurant_id) {
+    public Menu saveMenu(@RequestBody Menu menu, @PathVariable("id") int restaurant_id) {
         if (menu.getRestaurant()==null||menu.getRestaurant().getId()!=restaurant_id) {
-            //TODO подумать
-            return null;
+           menu.setRestaurant(service.get(restaurant_id)); //будем дружелюбными
         }
         return service.saveMenu(menu);
     }

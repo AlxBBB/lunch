@@ -20,4 +20,5 @@ public interface UserRepository {
     Vote setVote(int user_id, int restaurant_id);
 
     List<User> getAll();
+
 }

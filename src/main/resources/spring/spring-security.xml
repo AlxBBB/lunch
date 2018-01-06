@@ -9,13 +9,6 @@
     <http pattern="/resources/**" security="none"/>
 
 
-    <!--    <http pattern="/rest/**" use-expressions="true" name="restSecurityFilterChain" create-session="stateless">
-            <http-basic/>
-            <intercept-url pattern="/rest/admin/**" access="hasRole('ROLE_ADMIN')"/>
-            <intercept-url pattern="/**" access="isAuthenticated()"/>
-            <csrf disabled="true"/>
-        </http> -->
-
     <http use-expressions="true" name="restSecurityFilterChain" entry-point-ref="customEntryPoint"
           create-session="stateless">
         <intercept-url pattern="/login" access="isAnonymous()"/>
@@ -23,8 +16,8 @@
         <intercept-url pattern="/" access="isAnonymous()"/>
 
         <intercept-url pattern="/users/vote/**" access="hasRole('ROLE_USER')"/>
+        <intercept-url pattern="/restaurants/**/admin/**" access="hasRole('ROLE_ADMIN')"/>
         <intercept-url pattern="/**" access="isAuthenticated()"/>
-
 
         <form-login login-page="/login" default-target-url="/"
                     authentication-failure-url="/login?error=true"

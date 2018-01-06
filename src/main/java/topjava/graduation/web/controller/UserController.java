@@ -25,7 +25,7 @@ public class UserController {
         this.service = service;
     }
 
-    @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public User get(@AuthenticationPrincipal AuthorizedUser authorizedUser) {
         int id=authorizedUser.getId();
         return service.get(id);

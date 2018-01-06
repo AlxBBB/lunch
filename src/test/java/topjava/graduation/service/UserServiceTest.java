@@ -11,8 +11,6 @@ import java.util.Arrays;
 
 import static topjava.graduation.UserTestData.*;
 
-//import static org.hsqldb.Tokens.ADMIN;
-
 public class UserServiceTest extends AbstractServiceTest {
 
     @Autowired
@@ -20,7 +18,7 @@ public class UserServiceTest extends AbstractServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        //    service.evictCache();
+      service.evictCache();
     }
 
 

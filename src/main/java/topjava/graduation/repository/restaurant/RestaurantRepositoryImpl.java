@@ -39,7 +39,7 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
 
     @Override
     public Menu getMenu(Restaurant restaurant, LocalDate date) {
-        return crudMenuRepository.getByRestaurantAndDate(restaurant, date);
+        return crudMenuRepository.get(restaurant, date);
     }
 
     @Override
@@ -49,6 +49,6 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
 
     @Override
     public List<Menu> getAllMenu(LocalDate date) {
-        return crudMenuRepository.findAllByDate(date);
+        return crudMenuRepository.findAll(date);
     }
 }

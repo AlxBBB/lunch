@@ -3,6 +3,7 @@ package topjava.graduation.service;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import topjava.graduation.model.Dish;
 import topjava.graduation.model.Menu;
 import topjava.graduation.model.Restaurant;
 
@@ -31,8 +32,7 @@ public class RestaurantServiceTest extends AbstractServiceTest {
 
     @Test
     public void testAddRestaurante() throws Exception {
-        Restaurant restaurant=new Restaurant();
-        restaurant.setName("Новый");
+        Restaurant restaurant=new Restaurant(null,"Новый");
         restaurant=service.save(restaurant);
         MATCHER_RESTAURANT.assertListEquals(Arrays.asList(RESTAURANT1,RESTAURANT2,restaurant,RESTAURANT3),service.getAll());
     }
@@ -60,8 +60,16 @@ public class RestaurantServiceTest extends AbstractServiceTest {
 
     @Test
     public void testGetAllMenu() throws Exception {
-        //TODO ПЕРЕДЕЛАТЬ
         List<Menu> menu = service.getAllMenu(LocalDate.now().minusDays(1));
         MATCHER_MENU.assertListEquals(menu,Arrays.asList(MENU1,MENU2));
     }
+
+    @Test
+    public void testSaveMenu() throws Exception {
+        Menu newMenu=new Menu(null,LocalDate.now().plusDays(1),RESTAURANT1);
+        List<Dish> dishes=Arrays.asList(new Dish("Блюдо", 1000), new Dish("Напиток", 300));
+        newMenu = service.saveMenu(newMenu);
+        MATCHER_MENU.assertEquals(newMenu,service.getMenu(RESTAURANT1_ID,LocalDate.now().plusDays(1)));
+    }
+
 }

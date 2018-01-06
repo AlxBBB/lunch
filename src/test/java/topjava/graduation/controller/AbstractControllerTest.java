@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
+import topjava.graduation.service.RestaurantService;
 import topjava.graduation.service.UserService;
 import topjava.graduation.util.JpaUtil;
 
@@ -39,11 +40,7 @@ abstract public class AbstractControllerTest {
     protected MockMvc mockMvc;
 
     @Autowired
-    private JpaUtil jpaUtil;
-
-    @Autowired
-    UserService userService;
-
+    protected JpaUtil jpaUtil;
 
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -59,12 +56,7 @@ abstract public class AbstractControllerTest {
 
 
 
-    @Before
-    public void setUp() {
-        userService.evictCache();
-        jpaUtil.clear2ndLevelHibernateCache();
 
-    }
 
     /*protected String getMessage(String code) {
         return messageUtil.getMessage(code, MessageUtil.RU_LOCALE);

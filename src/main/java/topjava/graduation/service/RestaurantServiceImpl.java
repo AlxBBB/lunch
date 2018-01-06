@@ -48,7 +48,7 @@ public class RestaurantServiceImpl  implements RestaurantService {
     public Menu saveMenu(Menu menu) {
         Assert.notNull(menu, "menu must not be null");
         Assert.isTrue(!menu.getDate().isBefore(LocalDate.now()),"menu can not be change");
-        Assert.isNull(menu.getRestaurant(),"restaurant must not be null");
+        Assert.notNull(menu.getRestaurant(),"restaurant must not be null");
         return repository.saveMenu(menu);
     }
 

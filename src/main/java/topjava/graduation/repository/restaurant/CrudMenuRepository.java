@@ -22,7 +22,11 @@ public interface CrudMenuRepository  extends JpaRepository<Menu, Integer> {
     @Override
     Menu findOne(Integer id);
 
-    Menu getByRestaurantAndDate(Restaurant restaurant, @NotNull LocalDate date);
 
-    List<Menu> findAllByDate(LocalDate date);
+    @Query("SELECT m FROM Menu m LEFT JOIN FETCH m.restaurant r LEFT JOIN FETCH m.dishes WHERE m.restaurant = ?1 and m.date = ?2")
+    Menu get(Restaurant restaurant, LocalDate date);
+
+
+    @Query("SELECT DISTINCT m FROM Menu m LEFT JOIN FETCH m.restaurant r LEFT JOIN FETCH m.dishes WHERE m.date = ?1")
+    List<Menu> findAll(LocalDate date);
 }

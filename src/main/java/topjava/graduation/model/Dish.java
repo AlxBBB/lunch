@@ -19,6 +19,7 @@ public class Dish extends AbstractNamedEntity {
     int cost;
 
 
+    //TODO потестировать другой вариант
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "menu_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -26,4 +27,12 @@ public class Dish extends AbstractNamedEntity {
     //@NotNull(groups = View.Persist.class)
     private Menu menu;
 
+
+    public Dish() {
+    }
+
+    public Dish(String name, @Range(min = 0, max = 10000000) @NotNull int cost) {
+        super(null, name);
+        this.cost = cost;
+    }
 }

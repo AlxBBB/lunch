@@ -7,6 +7,7 @@ import topjava.graduation.TestUtil;
 import topjava.graduation.web.json.JsonUtil;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -105,7 +106,7 @@ public class BeanMatcher<T> {
                     }
                 });
     }
-/*
+
     @SafeVarargs
     public final ResultMatcher contentListMatcher(T... expected) {
         return contentListMatcher(Arrays.asList(expected));
@@ -121,5 +122,5 @@ public class BeanMatcher<T> {
                         return expectedList.equals(actualList);
                     }
                 });
-    } */
+    }
 }
