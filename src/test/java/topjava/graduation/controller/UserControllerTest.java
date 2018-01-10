@@ -15,6 +15,8 @@ import topjava.graduation.model.core.Role;
 import topjava.graduation.service.UserService;
 import topjava.graduation.web.json.JsonUtil;
 
+import java.time.LocalTime;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -69,14 +71,30 @@ public class UserControllerTest extends AbstractControllerTest {
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
     }
 
-    @Test(expected = NestedServletException.class)
+    @Test
+    public void testWrongRegister() throws Exception {
+        User newUser = new User(null, "New", "new@gmail.com", "newPass", Role.ROLE_USER);
+        mockMvc.perform(post(REST_URL + "/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonWithPassword(newUser,newUser.getPassword())))
+                .andExpect(status().isOk())
+                .andDo(print());
+        mockMvc.perform(get(REST_URL + "/")
+                .with(userAuth(newUser)))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+    }
+
+
+    @Test
     @Transactional(propagation = Propagation.NEVER)
     public void testRegisterDublicate() throws Exception {
         User newUser = new User(null, "New", USER1.getEmail(), "newPass", Role.ROLE_USER);
         mockMvc.perform(post(REST_URL + "/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonWithPassword(newUser,newUser.getPassword())))
-                .andExpect(status().isOk())
+                .andExpect(status().isConflict())
                 .andDo(print());
     }
 
@@ -111,16 +129,33 @@ public class UserControllerTest extends AbstractControllerTest {
 
     @Test
     public void testSetVote() throws Exception {
-        Vote vote = new Vote(USER2,RESTAURANT3);
         ResultActions action =mockMvc.perform(put(REST_URL +"/vote/"+RESTAURANT3_ID)
                 .with(userAuth(USER2))
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(vote)))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());
         Vote returned = MATCHER_VOTE.fromJsonAction(action);
-        vote.setId(returned.getId());
-        MATCHER_VOTE.assertEquals(vote, userService.getVote(USER2_ID));
+        MATCHER_VOTE.assertEquals(returned, userService.getVote(USER2_ID));
     }
+
+    @Test
+    public void testUpdateVote() throws Exception {
+        if (LocalTime.now().isBefore(LocalTime.of(11, 00))) {
+            ResultActions action =mockMvc.perform(put(REST_URL +"/vote/"+RESTAURANT3_ID)
+                    .with(userAuth(USER1))
+                    .contentType(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk());
+            Vote returned = MATCHER_VOTE.fromJsonAction(action);
+            MATCHER_VOTE.assertEquals(returned, userService.getVote(USER1_ID));
+        } else {
+            mockMvc.perform(put(REST_URL + "/vote/" + RESTAURANT3_ID)
+                    .with(userAuth(USER1))
+                    .contentType(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isUnprocessableEntity());
+        }
+    }
+
 
 }

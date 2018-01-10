@@ -2,5 +2,7 @@
 out
 target
 *.iml
+*.bat
+*.tmp
 log
 *.patch

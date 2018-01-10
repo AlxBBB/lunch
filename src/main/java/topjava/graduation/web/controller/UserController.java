@@ -45,10 +45,9 @@ public class UserController {
         return service.getVote(id);
     }
 
-    @PutMapping(value = "/vote/{id_menu}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Vote setVote(@AuthenticationPrincipal AuthorizedUser authorizedUser, @PathVariable("id_menu") int id_restaurant) {
-        int id=authorizedUser.getId();
-        return service.setVote(id,id_restaurant);
+    @PutMapping(value = "/vote/{id_restaurant}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Vote setVote(@AuthenticationPrincipal AuthorizedUser authorizedUser, @PathVariable("id_restaurant") int id_restaurant) {
+        return service.setVote(authorizedUser.getId(),id_restaurant);
     }
 
 }

@@ -40,15 +40,7 @@ public class UserServiceTest extends AbstractServiceTest {
     @Test(expected = DataIntegrityViolationException.class)
     public void testCreateDublEmail() throws Exception {
         User newUser = new User(null, "New", USER1.getEmail(), "newPass", Role.ROLE_USER);
-        User created = service.save(newUser);
-        newUser.setId(created.getId());
-        MATCHER_USER.assertListEquals(Arrays.asList(newUser, ADMIN, USER1, USER2), service.getAll());
-    }
-
-    @Test
-    public void testDelete() throws Exception {
-        service.delete(USER1_ID);
-        MATCHER_USER.assertListEquals(Arrays.asList(ADMIN, USER2), service.getAll());
+        service.save(newUser);
     }
 
     @Test
@@ -57,11 +49,6 @@ public class UserServiceTest extends AbstractServiceTest {
         MATCHER_USER.assertEquals(ADMIN, user);
     }
 
-
-    @Test(expected = NotFoundException.class)
-    public void testNotFoundDelete() throws Exception {
-        service.delete(1);
-    }
 
     @Test(expected = NotFoundException.class)
     public void testGetNotFound() throws Exception {
@@ -78,23 +65,4 @@ public class UserServiceTest extends AbstractServiceTest {
         MATCHER_USER.assertEquals(updated, service.get(USER1_ID));
     }
 
-
-
-    /*
-    @Test(expected = DataAccessException.class)
-    public void testDuplicateMailCreate() throws Exception {
-        service.create(new User(null, "Duplicate", "user@yandex.ru", "newPass", 2000, Role.ROLE_USER));
-    }
-
-
-
-
-    @Test
-    public void testGetAll() throws Exception {
-        List<User> all = service.getAll();
-        MATCHER.assertListEquals(Arrays.asList(ADMIN, USER), all);
-    }
-
-
-     */
 }

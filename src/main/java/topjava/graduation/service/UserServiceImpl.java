@@ -22,7 +22,7 @@ import static topjava.graduation.util.ValidationUtil.checkNotFoundWithId;
 
 
 @Service("userService")
-public class UserServiceImpl implements UserService , UserDetailsService {  //, UserDetailsService
+public class UserServiceImpl implements UserService, UserDetailsService {  //, UserDetailsService
 
     private final UserRepository repository;
 
@@ -38,11 +38,6 @@ public class UserServiceImpl implements UserService , UserDetailsService {  //, 
         return repository.save(prepareToSave(user));
     }
 
-    @CacheEvict(value = "users", allEntries = true)
-    @Override
-    public void delete(int id) throws NotFoundException {
-        checkNotFoundWithId(repository.delete(id), id);
-    }
 
     @Override
     public User get(int id) throws NotFoundException {
@@ -51,12 +46,12 @@ public class UserServiceImpl implements UserService , UserDetailsService {  //, 
 
     @Override
     public Vote getVote(int id) {
-        return checkNotFoundWithId(repository.getVote(id),id);
+        return checkNotFoundWithId(repository.getVote(id), id);
     }
 
     @Override
     public Vote setVote(int user_id, int restaurant_id) {
-        return checkChange(repository.setVote(user_id,restaurant_id),"Vote not be saved");
+        return checkChange(repository.setVote(user_id, restaurant_id), "Vote not be saved");
     }
 
     @Override
@@ -65,8 +60,6 @@ public class UserServiceImpl implements UserService , UserDetailsService {  //, 
         return checkNotFound(repository.getByEmail(email.toLowerCase()), "email=" + email);
     }
 
-
-
     @Cacheable("users")
     @Override
     public List<User> getAll() {
@@ -74,21 +67,11 @@ public class UserServiceImpl implements UserService , UserDetailsService {  //, 
     }
 
 
-/*    @CacheEvict(value = "users", allEntries = true)
-//    @Transactional
-    public void update(UserTo userTo) {
-        User user = updateFromTo(get(userTo.getId()), userTo);
-        repository.save(prepareToSave(user));
-    }
-*/
-
-   @CacheEvict(value = "users", allEntries = true)
-   @Override
+    @CacheEvict(value = "users", allEntries = true)
+    @Override
     public void evictCache() {
         // only for evict cache
     }
-
-
 
     @Override
     public AuthorizedUser loadUserByUsername(String email) throws UsernameNotFoundException {
