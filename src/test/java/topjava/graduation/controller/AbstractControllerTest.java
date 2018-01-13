@@ -45,6 +45,21 @@ abstract public class AbstractControllerTest {
     @Autowired
     private WebApplicationContext webApplicationContext;
 
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    RestaurantService restaurantService;
+
+    @Before
+    public void setUp() {
+        userService.evictCache();
+        restaurantService.evictCache();
+        jpaUtil.clear2ndLevelHibernateCache();
+    }
+
+
+
     @PostConstruct
     private void postConstruct() {
         mockMvc = MockMvcBuilders

@@ -14,6 +14,8 @@ public interface RestaurantService {
 
     List<Restaurant> getAll();
 
+    void evictCache();
+
     Menu getMenu(int restaurant_id, LocalDate date);
 
     Menu saveMenu(Menu menu);

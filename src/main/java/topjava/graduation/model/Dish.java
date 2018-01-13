@@ -19,12 +19,12 @@ public class Dish extends AbstractNamedEntity {
     int cost;
 
 
-    //TODO потестировать другой вариант
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "menu_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    //@NotNull(groups = View.Persist.class)
+    @NotNull
     private Menu menu;
 
 

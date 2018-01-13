@@ -38,6 +38,19 @@ public class UserServiceTest extends AbstractServiceTest {
     }
 
     @Test(expected = DataIntegrityViolationException.class)
+    public void testBadCreate() throws Exception {
+        service.save(new User(null, "New", "new@gmail.com", null, Role.ROLE_USER));
+    }
+
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testNullCreate() throws Exception {
+        service.save(null);
+    }
+
+
+
+    @Test(expected = DataIntegrityViolationException.class)
     public void testCreateDublEmail() throws Exception {
         User newUser = new User(null, "New", USER1.getEmail(), "newPass", Role.ROLE_USER);
         service.save(newUser);

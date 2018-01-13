@@ -8,6 +8,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -36,11 +37,11 @@ public class ExceptionInfoHandler {
         return new ResponseEntity<>(errorInfo, appEx.getHttpStatus());
     }
 */
-    @ResponseStatus(value = HttpStatus.CONFLICT)  // 409
+    /*@ResponseStatus(value = HttpStatus.CONFLICT)  // 409
     @ExceptionHandler({DataIntegrityViolationException.class})
     public ErrorInfo conflict(HttpServletRequest req, DataIntegrityViolationException e) {
         String rootMsg = ValidationUtil.getRootCause(e).getMessage();
-        /*if (rootMsg != null) {
+        if (rootMsg != null) {
             String lowerCaseMsg = rootMsg.toLowerCase();
             Optional<Map.Entry<String, String>> entry = CONSTRAINS_I18N_MAP.entrySet().stream()
                     .filter(it -> lowerCaseMsg.contains(it.getKey()))
@@ -48,12 +49,13 @@ public class ExceptionInfoHandler {
             if (entry.isPresent()) {
                 return logAndGetErrorInfo(req, e, false, DATA_ERROR, messageUtil.getMessage(entry.get().getValue()));
             }
-        } */
+        }
         return logAndGetErrorInfo(req, e, true, null);
-    }
+    } */
+
 
     @ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY)  // 422
-    @ExceptionHandler({BindException.class, MethodArgumentNotValidException.class, NotChangedException.class})
+    @ExceptionHandler({BindException.class, MethodArgumentNotValidException.class, NotChangedException.class, DataIntegrityViolationException.class,HttpMessageNotReadableException.class})
     public ErrorInfo bindValidationError(HttpServletRequest req, Exception e) {
        // BindingResult result = e instanceof BindException ?
        //         ((BindException) e).getBindingResult() : ((MethodArgumentNotValidException) e).getBindingResult();

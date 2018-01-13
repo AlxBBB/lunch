@@ -1,5 +1,6 @@
 package topjava.graduation.service;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -17,6 +18,11 @@ import static topjava.graduation.RestaurantTestData.*;
 public class RestaurantServiceTest extends AbstractServiceTest {
     @Autowired
     RestaurantService service;
+
+    @Before
+    public void setUp() throws Exception {
+        service.evictCache();
+    }
 
     @Test
     public void testGet() throws Exception {

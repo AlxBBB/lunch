@@ -16,6 +16,7 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -28,18 +29,11 @@ import static topjava.graduation.web.controller.RestaurantController.REST_URL;
 
 public class RestaurantControllerTest extends AbstractControllerTest {
 
-    @Autowired
-    RestaurantService restaurantService;
-
-    @Before
-    public void setUp() {
-       // userService.evictCache();
-        jpaUtil.clear2ndLevelHibernateCache();
-    }
 
     @Test
     public void testGet() throws Exception {
         mockMvc.perform(get(REST_URL + "/"+RESTAURANT2_ID )
+                .with(csrf())
                 .with(userAuth(USER1)))
                 .andExpect(status().isOk())
                 .andDo(print())
@@ -58,6 +52,7 @@ public class RestaurantControllerTest extends AbstractControllerTest {
     @Test
     public void testGetAll() throws Exception {
         mockMvc.perform(get(REST_URL)
+                .with(csrf())
                 .with(userAuth(USER1)))
                 .andExpect(status().isOk())
                 .andDo(print())
@@ -69,6 +64,7 @@ public class RestaurantControllerTest extends AbstractControllerTest {
     public void testAdd() throws Exception {
         Restaurant restaurant=new Restaurant(null,"Новый");
         ResultActions action =mockMvc.perform(post(REST_URL+"/admin")
+                .with(csrf())
                 .with(userAuth(ADMIN))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(restaurant)))
@@ -84,6 +80,7 @@ public class RestaurantControllerTest extends AbstractControllerTest {
     public void testAddWrongAuth() throws Exception {
         Restaurant restaurant=new Restaurant(null,"Новый");
         ResultActions action =mockMvc.perform(post(REST_URL+"/admin")
+                .with(csrf())
                 .with(userAuth(USER1))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(restaurant)))
@@ -95,6 +92,7 @@ public class RestaurantControllerTest extends AbstractControllerTest {
     @Test
     public void testGetAllMenus() throws Exception {
         mockMvc.perform(get(REST_URL+"/menus")
+                .with(csrf())
                 .with(userAuth(USER1)))
                 .andExpect(status().isOk())
                 .andDo(print())
@@ -105,6 +103,7 @@ public class RestaurantControllerTest extends AbstractControllerTest {
     @Test
     public void testGetAllMenusByDate() throws Exception {
         mockMvc.perform(get(REST_URL+"/menus/admin" )
+                .with(csrf())
                 .with(userAuth(ADMIN))
                 .param("date",LocalDate.now().minusDays(1).toString()))
                 .andExpect(status().isOk())
@@ -116,6 +115,7 @@ public class RestaurantControllerTest extends AbstractControllerTest {
     @Test
     public void testGetAllMenusByDateWrongAuth() throws Exception {
         mockMvc.perform(get(REST_URL+"/menus/admin" )
+                .with(csrf())
                 .with(userAuth(USER2))
                 .param("date",LocalDate.now().minusDays(1).toString()))
                 .andExpect(status().isForbidden())
@@ -125,6 +125,7 @@ public class RestaurantControllerTest extends AbstractControllerTest {
     @Test
     public void testGetMenus() throws Exception {
         mockMvc.perform(get(REST_URL+"/"+RESTAURANT1_ID+"/menus")
+                .with(csrf())
                 .with(userAuth(USER1)))
                 .andExpect(status().isOk())
                 .andDo(print())
@@ -135,6 +136,7 @@ public class RestaurantControllerTest extends AbstractControllerTest {
     @Test
     public void testGetMenusByDate() throws Exception {
         mockMvc.perform(get(REST_URL+"/"+RESTAURANT3_ID+"/menus/admin" )
+                .with(csrf())
                 .with(userAuth(ADMIN))
                 .param("date",LocalDate.now().minusDays(1).toString()))
                 .andExpect(status().isOk())
@@ -148,6 +150,7 @@ public class RestaurantControllerTest extends AbstractControllerTest {
         Menu newMenu=new Menu(null,LocalDate.now().plusDays(1),RESTAURANT3);
         List<Dish> dishes=Arrays.asList(new Dish("Блюдо", 1000), new Dish("Напиток", 300));
         ResultActions action = mockMvc.perform(post(REST_URL+"/"+RESTAURANT3_ID+"/menus/admin" )
+                .with(csrf())
                 .with(userAuth(ADMIN))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(newMenu)))
@@ -164,6 +167,7 @@ public class RestaurantControllerTest extends AbstractControllerTest {
         Menu newMenu=new Menu(null,LocalDate.now().plusDays(1),RESTAURANT3);
         List<Dish> dishes=Arrays.asList(new Dish("Блюдо", 1000), new Dish("Напиток", 300));
         ResultActions action = mockMvc.perform(post(REST_URL+"/"+RESTAURANT3_ID+"/menus/admin" )
+                .with(csrf())
                 .with(userAuth(USER1))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(newMenu)))

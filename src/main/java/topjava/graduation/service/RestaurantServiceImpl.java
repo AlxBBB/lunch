@@ -1,6 +1,8 @@
 package topjava.graduation.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import topjava.graduation.exception.NotFoundException;
@@ -23,6 +25,7 @@ public class RestaurantServiceImpl  implements RestaurantService {
         this.repository = repository;
     }
 
+    @CacheEvict(value = "restaurants", allEntries = true)
     @Override
     public Restaurant save(Restaurant restaurant) {
         Assert.notNull(restaurant, "restaurant must not be null");
@@ -34,9 +37,16 @@ public class RestaurantServiceImpl  implements RestaurantService {
         return checkNotFoundWithId(repository.get(id),id);
     }
 
+    @Cacheable("restaurants")
     @Override
     public List<Restaurant> getAll() {
         return repository.getAll();
+    }
+
+    @CacheEvict(value = "restaurants", allEntries = true)
+    @Override
+    public void evictCache() {
+        // only for evict cache
     }
 
     @Override

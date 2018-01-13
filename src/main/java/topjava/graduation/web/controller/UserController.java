@@ -5,12 +5,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import topjava.graduation.model.User;
 import topjava.graduation.model.Vote;
 import topjava.graduation.model.core.Role;
 import topjava.graduation.service.UserService;
 import topjava.graduation.util.AuthorizedUser;
+
+import javax.validation.Valid;
+
 
 @RestController
 @RequestMapping(UserController.REST_URL)
@@ -33,9 +37,13 @@ public class UserController {
 
 
     @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void create(@RequestBody User user) {
-        user.setRole(Role.ROLE_USER);
-        service.save(user);
+    public void create(@Valid @RequestBody User user, BindingResult result) {
+        if (result.hasErrors()) {
+            log.error("{}",result.toString());
+        } else {
+            user.setRole(Role.ROLE_USER);
+            service.save(user);
+        }
     }
 
 

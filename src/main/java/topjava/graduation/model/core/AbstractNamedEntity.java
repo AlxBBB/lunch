@@ -1,14 +1,12 @@
 package topjava.graduation.model.core;
 
-//import org.hibernate.validator.constraints.SafeHtml;
-//import ru.javawebinar.topjava.View;
-
+import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.data.domain.Sort;
-import topjava.graduation.model.core.AbstractBaseEntity;
-
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotBlank;
+
+
 
 
 @MappedSuperclass
@@ -17,7 +15,7 @@ public abstract class AbstractNamedEntity extends AbstractBaseEntity {
 
     @NotBlank
     @Column(name = "name", nullable = false)
- //   @SafeHtml(groups = {View.ValidatedRestUI.class})
+    @SafeHtml
     protected String name;
 
     public AbstractNamedEntity() {

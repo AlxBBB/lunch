@@ -4,14 +4,14 @@ package topjava.graduation.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Cache;
+import org.hibernate.validator.constraints.SafeHtml;
 import topjava.graduation.model.core.AbstractNamedEntity;
 import topjava.graduation.model.core.Role;
-//import org.springframework.util.CollectionUtils;
-//import ru.javawebinar.topjava.View;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 
@@ -21,14 +21,10 @@ import javax.validation.constraints.Size;
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = {"email"}, name = "users_unique_email_idx")})
 public class User extends AbstractNamedEntity {
 
-    //public static final String DELETE = "User.delete";
-    //public static final String BY_EMAIL = "User.getByEmail";
-    //public static final String ALL_SORTED = "User.getAllSorted";
-
     @Column(name = "email", nullable = false, unique = true)
     @Email
     @NotBlank
-//    @SafeHtml(groups = {View.ValidatedRestUI.class})  // https://stackoverflow.com/questions/17480809
+    @SafeHtml
     private String email;
 
     @Column(name = "password", nullable = false)
@@ -40,6 +36,7 @@ public class User extends AbstractNamedEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
+    @NotNull
     private Role role;
 
     public User() {

@@ -26,7 +26,20 @@
            diskExpiryThreadIntervalSeconds="1"
            memoryStoreEvictionPolicy="LRU"/>
 
+    <cache name="restaurants"
+           timeToLiveSeconds="60"
+           maxElementsInMemory="1000"
+           eternal="false"
+           overflowToDisk="false"
+           maxElementsOnDisk="10000000"
+           diskPersistent="false"
+           diskExpiryThreadIntervalSeconds="1"
+           memoryStoreEvictionPolicy="LRU"/>
+
     <cache name="topjava.graduation.model.User"
+           maxElementsInMemory="25000"/>
+
+    <cache name="topjava.graduation.model.Restaurant"
            maxElementsInMemory="25000"/>
 
 </ehcache>

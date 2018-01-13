@@ -18,8 +18,27 @@ public class Vote extends AbstractBaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    //@NotNull(groups = View.Persist.class)
     private User user;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "restaurant_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @NotNull
+    private Restaurant restaurant;
+
+    public Vote(Integer id, LocalDate date, User user, Restaurant restaurant) {
+        super(id);
+        this.date = date;
+        this.restaurant = restaurant;
+        this.user = user;
+    }
+
+    public Vote(User user, Restaurant restaurant) {
+        this(null, LocalDate.now(), user, restaurant);
+    }
+
+    public Vote() {
+    }
 
     public Restaurant getRestaurant() {
         return restaurant;
@@ -27,27 +46,6 @@ public class Vote extends AbstractBaseEntity {
 
     public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
-    }
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "restaurant_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    //@NotNull(groups = View.Persist.class)
-    private Restaurant restaurant;
-
-
-    public Vote(Integer id, LocalDate date,  User user, Restaurant restaurant) {
-        super(id);
-        this.date = date;
-        this.restaurant=restaurant;
-        this.user=user;
-    }
-
-    public Vote( User user, Restaurant restaurant) {
-        this(null,LocalDate.now(),user,restaurant);
-    }
-
-    public Vote() {
     }
 
     public LocalDate getDate() {
