@@ -12,9 +12,6 @@ import java.io.IOException;
 
 public class CustomEntryPoint extends LoginUrlAuthenticationEntryPoint {
 
-    private static final String XML_HTTP_REQUEST = "XMLHttpRequest";
-    private static final String X_REQUESTED_WITH = "X-Requested-With";
-
     public CustomEntryPoint(String loginFormUrl) {
         super(loginFormUrl);
     }
