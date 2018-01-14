@@ -11,11 +11,11 @@ public class ValidationUtil {
     }
 
     public static void checkNotFoundWithId(boolean found, int id) {
-        checkNotFound(found, "id=" + id);
+        checkNotFound(found, "Not found id=" + id);
     }
 
     public static <T> T checkNotFoundWithId(T object, int id) {
-        return checkNotFound(object, "id=" + id);
+        return checkNotFound(object, "Not found id=" + id);
     }
 
     public static <T> T checkNotFound(T object, String msg) {

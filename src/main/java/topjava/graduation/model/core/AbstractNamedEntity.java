@@ -8,7 +8,6 @@ import javax.validation.constraints.NotBlank;
 
 
 
-
 @MappedSuperclass
 public abstract class AbstractNamedEntity extends AbstractBaseEntity {
     public static final Sort SORT_NAME = new Sort("name");

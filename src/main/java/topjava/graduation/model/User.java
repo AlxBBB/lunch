@@ -2,8 +2,8 @@ package topjava.graduation.model;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.SafeHtml;
 import topjava.graduation.model.core.AbstractNamedEntity;
 import topjava.graduation.model.core.Role;
@@ -24,7 +24,7 @@ public class User extends AbstractNamedEntity {
     @Column(name = "email", nullable = false, unique = true)
     @Email
     @NotBlank
-    @SafeHtml
+    @SafeHtml(whitelistType = SafeHtml.WhiteListType.NONE)
     private String email;
 
     @Column(name = "password", nullable = false)
@@ -46,11 +46,11 @@ public class User extends AbstractNamedEntity {
         this(u.getId(), u.getName(), u.getEmail(), u.getPassword(), u.getRole());
     }
 
-    public User(Integer id, String name, String email, String password,  Role role) {
+    public User(Integer id, String name, String email, String password, Role role) {
         super(id, name);
         this.email = email;
         this.password = password;
-        this.role=role;
+        this.role = role;
     }
 
     public String getEmail() {
@@ -61,20 +61,20 @@ public class User extends AbstractNamedEntity {
         this.email = email;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public Role getRole() {
         return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override

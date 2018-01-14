@@ -17,8 +17,8 @@ import topjava.graduation.service.UserService;
 import topjava.graduation.util.JpaUtil;
 
 import javax.annotation.PostConstruct;
+
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @ContextConfiguration({
         "classpath:spring/spring-app.xml",
@@ -41,15 +41,12 @@ abstract public class AbstractControllerTest {
 
     @Autowired
     protected JpaUtil jpaUtil;
-
-    @Autowired
-    private WebApplicationContext webApplicationContext;
-
     @Autowired
     UserService userService;
-
     @Autowired
     RestaurantService restaurantService;
+    @Autowired
+    private WebApplicationContext webApplicationContext;
 
     @Before
     public void setUp() {
@@ -57,7 +54,6 @@ abstract public class AbstractControllerTest {
         restaurantService.evictCache();
         jpaUtil.clear2ndLevelHibernateCache();
     }
-
 
 
     @PostConstruct
@@ -69,20 +65,4 @@ abstract public class AbstractControllerTest {
                 .build();
     }
 
-
-
-
-
-    /*protected String getMessage(String code) {
-        return messageUtil.getMessage(code, MessageUtil.RU_LOCALE);
-    }
-
-    //public ResultMatcher errorType(ErrorType type) {
-        return jsonPath("$.type").value(type.name());
-    }
-
-    public ResultMatcher jsonMessage(String path, String code) {
-        return jsonPath(path).value(getMessage(code));
-    }
-    */
 }

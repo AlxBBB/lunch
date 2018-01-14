@@ -16,13 +16,11 @@ import topjava.graduation.util.AuthorizedUser;
 import java.util.List;
 
 import static topjava.graduation.util.UserUtil.prepareToSave;
-import static topjava.graduation.util.ValidationUtil.checkChange;
-import static topjava.graduation.util.ValidationUtil.checkNotFound;
-import static topjava.graduation.util.ValidationUtil.checkNotFoundWithId;
+import static topjava.graduation.util.ValidationUtil.*;
 
 
 @Service("userService")
-public class UserServiceImpl implements UserService, UserDetailsService {  //, UserDetailsService
+public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository repository;
 

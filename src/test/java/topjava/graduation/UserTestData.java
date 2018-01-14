@@ -2,12 +2,15 @@ package topjava.graduation;
 
 
 import topjava.graduation.matcher.BeanMatcher;
+import topjava.graduation.model.Vote;
 import topjava.graduation.model.core.Role;
 import topjava.graduation.model.User;
 import topjava.graduation.web.json.JsonUtil;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
+import static topjava.graduation.RestaurantTestData.RESTAURANT1;
 import static topjava.graduation.model.core.AbstractBaseEntity.START_SEQ;
 
 
@@ -33,4 +36,9 @@ public class UserTestData {
     public static String jsonWithPassword(User user, String passw) {
         return JsonUtil.writeWithExtraProps(user, "password", passw);
     }
+
+    public static final BeanMatcher<Vote> MATCHER_VOTE = BeanMatcher.of(Vote.class);
+
+    public static final Vote USER1_VOTE1 = new Vote(START_SEQ+10, LocalDate.now().minusDays(1),USER1,RESTAURANT1);
+    public static final Vote USER1_VOTE2 = new Vote(START_SEQ+11, LocalDate.now(),USER1,RESTAURANT1);
 }

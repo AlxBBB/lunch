@@ -11,6 +11,7 @@ import topjava.graduation.model.Menu;
 import topjava.graduation.model.Restaurant;
 import topjava.graduation.service.RestaurantService;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -39,7 +40,7 @@ public class RestaurantController {
     }
 
     @PostMapping(value = "/admin", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Restaurant createOrUpdate(@RequestBody Restaurant restaurant) {
+    public Restaurant createOrUpdate(@Valid @RequestBody Restaurant restaurant) {
         return service.save(restaurant);
     }
 
@@ -63,11 +64,13 @@ public class RestaurantController {
         return service.getMenu(restaurant_id, date);
     }
 
-    @PostMapping(value = "/{id}/menus/admin", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Menu saveMenu(@RequestBody Menu menu, @PathVariable("id") int restaurant_id) {
-        if (menu.getRestaurant()==null||menu.getRestaurant().getId()!=restaurant_id) {
-           menu.setRestaurant(service.get(restaurant_id)); //будем дружелюбными
-        }
+    @PostMapping(value = "/menus/admin", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Menu saveMenu(@Valid  @RequestBody Menu menu) {
         return service.saveMenu(menu);
+    }
+
+    @DeleteMapping(value = "/menus/{menu_id}/admin")
+    public void deleteMenu(@PathVariable("menu_id") int menu_id) {
+        service.deleteMenu(menu_id);
     }
 }

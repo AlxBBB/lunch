@@ -10,14 +10,17 @@ import topjava.graduation.model.User;
 import topjava.graduation.model.Vote;
 import topjava.graduation.model.core.Role;
 import topjava.graduation.web.json.JsonUtil;
+
 import java.time.LocalTime;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static topjava.graduation.RestaurantTestData.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static topjava.graduation.RestaurantTestData.RESTAURANT3_ID;
 import static topjava.graduation.TestUtil.userHttpBasic;
 import static topjava.graduation.UserTestData.*;
-import static topjava.graduation.VoteTestData.*;
 import static topjava.graduation.web.controller.UserController.REST_URL;
 
 public class UserControllerTest extends AbstractControllerTest {
@@ -46,7 +49,7 @@ public class UserControllerTest extends AbstractControllerTest {
         User newUser = new User(null, "New", "new@gmail.com", "newPass", Role.ROLE_USER);
         mockMvc.perform(post(REST_URL + "/register")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(jsonWithPassword(newUser,newUser.getPassword())))
+                .content(jsonWithPassword(newUser, newUser.getPassword())))
                 .andExpect(status().isOk())
                 .andDo(print());
         mockMvc.perform(get(REST_URL + "/")
@@ -61,7 +64,7 @@ public class UserControllerTest extends AbstractControllerTest {
         User newUser = new User(null, "New", "new@gmail.com", null, Role.ROLE_USER);
         mockMvc.perform(post(REST_URL + "/register")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(jsonWithPassword(newUser,newUser.getPassword())))
+                .content(jsonWithPassword(newUser, newUser.getPassword())))
                 .andExpect(status().isUnprocessableEntity())
                 .andDo(print());
     }
@@ -71,14 +74,9 @@ public class UserControllerTest extends AbstractControllerTest {
         User newUser = new User(null, "<script>alert(123)</script>", "ne", "new", Role.ROLE_USER);
         mockMvc.perform(post(REST_URL + "/register")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(jsonWithPassword(newUser,newUser.getPassword())))
-                .andExpect(status().isOk())
+                .content(jsonWithPassword(newUser, newUser.getPassword())))
+                .andExpect(status().isUnprocessableEntity())
                 .andDo(print());
-        mockMvc.perform(get(REST_URL + "/")
-                .with(userHttpBasic(newUser)))
-                .andExpect(status().isOk())
-                .andDo(print())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
     }
 
     @Test
@@ -106,8 +104,8 @@ public class UserControllerTest extends AbstractControllerTest {
         User newUser = new User(null, "New", USER1.getEmail(), "newPass", Role.ROLE_USER);
         mockMvc.perform(post(REST_URL + "/register")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(jsonWithPassword(newUser,newUser.getPassword())))
-                .andExpect(status().isUnprocessableEntity())
+                .content(jsonWithPassword(newUser, newUser.getPassword())))
+                .andExpect(status().isConflict())
                 .andDo(print());
     }
 
@@ -116,24 +114,25 @@ public class UserControllerTest extends AbstractControllerTest {
         User newUser = new User(null, "New", "new@gmail.com", "newPass", Role.ROLE_USER);
         mockMvc.perform(post(REST_URL + "/register")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(jsonWithPassword(newUser,newUser.getPassword()))
+                .content(jsonWithPassword(newUser, newUser.getPassword()))
                 .with(userHttpBasic(USER1)))
                 .andExpect(status().isForbidden())
                 .andDo(print());
-     }
+    }
 
     @Test
     public void testGetVote() throws Exception {
-        mockMvc.perform(get(REST_URL +"/vote")
+        mockMvc.perform(get(REST_URL + "/vote")
                 .with(userHttpBasic(USER1)))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(MATCHER_VOTE.contentMatcher(USER1_VOTE2));
     }
+
     @Test
     public void testGetVoteWrongAuth() throws Exception {
-        mockMvc.perform(get(REST_URL +"/vote")
+        mockMvc.perform(get(REST_URL + "/vote")
                 .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isForbidden())
                 .andDo(print());
@@ -142,7 +141,7 @@ public class UserControllerTest extends AbstractControllerTest {
 
     @Test
     public void testSetVote() throws Exception {
-        ResultActions action =mockMvc.perform(put(REST_URL +"/vote/"+RESTAURANT3_ID)
+        ResultActions action = mockMvc.perform(post(REST_URL + "/vote/" + RESTAURANT3_ID)
                 .with(userHttpBasic(USER2))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -154,7 +153,7 @@ public class UserControllerTest extends AbstractControllerTest {
     @Test
     public void testUpdateVote() throws Exception {
         if (LocalTime.now().isBefore(LocalTime.of(11, 00))) {
-            ResultActions action =mockMvc.perform(put(REST_URL +"/vote/"+RESTAURANT3_ID)
+            ResultActions action = mockMvc.perform(post(REST_URL + "/vote/" + RESTAURANT3_ID)
                     .with(userHttpBasic(USER1))
                     .contentType(MediaType.APPLICATION_JSON))
                     .andDo(print())
@@ -162,11 +161,21 @@ public class UserControllerTest extends AbstractControllerTest {
             Vote returned = MATCHER_VOTE.fromJsonAction(action);
             MATCHER_VOTE.assertEquals(returned, userService.getVote(USER1_ID));
         } else {
-            mockMvc.perform(put(REST_URL + "/vote/" + RESTAURANT3_ID)
+            mockMvc.perform(post(REST_URL + "/vote/" + RESTAURANT3_ID)
                     .with(userHttpBasic(USER1))
                     .contentType(MediaType.APPLICATION_JSON))
                     .andDo(print())
                     .andExpect(status().isUnprocessableEntity());
         }
     }
+
+    @Test
+    public void testSetWrongVote() throws Exception {
+        mockMvc.perform(post(REST_URL + "/vote/" + 0)
+                .with(userHttpBasic(USER2))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity());
+    }
+
 }

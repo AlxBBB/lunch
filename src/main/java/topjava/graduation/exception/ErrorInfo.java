@@ -8,4 +8,5 @@ public class ErrorInfo {
         this.url = url.toString();
         this.message = message;
     }
+
 }

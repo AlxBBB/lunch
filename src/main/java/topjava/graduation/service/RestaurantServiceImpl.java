@@ -13,10 +13,10 @@ import topjava.graduation.repository.restaurant.RestaurantRepository;
 import java.time.LocalDate;
 import java.util.List;
 
-import static topjava.graduation.util.ValidationUtil.*;
+import static topjava.graduation.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
-public class RestaurantServiceImpl  implements RestaurantService {
+public class RestaurantServiceImpl implements RestaurantService {
 
     final private RestaurantRepository repository;
 
@@ -34,7 +34,7 @@ public class RestaurantServiceImpl  implements RestaurantService {
 
     @Override
     public Restaurant get(int id) throws NotFoundException {
-        return checkNotFoundWithId(repository.get(id),id);
+        return checkNotFoundWithId(repository.get(id), id);
     }
 
     @Cacheable("restaurants")
@@ -50,16 +50,25 @@ public class RestaurantServiceImpl  implements RestaurantService {
     }
 
     @Override
-    public Menu getMenu(int restaurant_id,LocalDate date) {
-        return repository.getMenu(get(restaurant_id),date);
+    public Menu getMenu(int restaurant_id, LocalDate date) {
+        return repository.getMenu(restaurant_id, date);
     }
 
     @Override
     public Menu saveMenu(Menu menu) {
         Assert.notNull(menu, "menu must not be null");
-        Assert.isTrue(!menu.getDate().isBefore(LocalDate.now()),"menu can not be change");
-        Assert.notNull(menu.getRestaurant(),"restaurant must not be null");
+        Assert.isTrue(menu.getDate().isAfter(LocalDate.now()), "menu can not be change");
         return repository.saveMenu(menu);
+    }
+
+    @Override
+    public void deleteMenu(int menu_id) {
+        Menu menu=repository.getMenu(menu_id);
+        if (menu==null) {
+            throw new NotFoundException(String.format("Menu id=%d not exists",menu_id));
+        }
+        Assert.isTrue(menu.getDate().isAfter(LocalDate.now()), "menu can not be change");
+        checkNotFoundWithId(repository.deleteMenu(menu_id), menu_id);
     }
 
     @Override

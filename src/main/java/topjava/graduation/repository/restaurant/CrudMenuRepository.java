@@ -8,13 +8,12 @@ import org.springframework.transaction.annotation.Transactional;
 import topjava.graduation.model.Menu;
 import topjava.graduation.model.Restaurant;
 
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
 
 @Transactional(readOnly = true)
-public interface CrudMenuRepository  extends JpaRepository<Menu, Integer> {
+public interface CrudMenuRepository extends JpaRepository<Menu, Integer> {
     @Transactional
     @Override
     Menu save(Menu menu);
@@ -22,9 +21,13 @@ public interface CrudMenuRepository  extends JpaRepository<Menu, Integer> {
     @Override
     Menu findOne(Integer id);
 
+    @Transactional
+    @Modifying
+    @Query("DELETE FROM Menu m WHERE m.id=:id")
+    int delete(@Param("id") int id);
 
-    @Query("SELECT m FROM Menu m LEFT JOIN FETCH m.restaurant r LEFT JOIN FETCH m.dishes WHERE m.restaurant = ?1 and m.date = ?2")
-    Menu get(Restaurant restaurant, LocalDate date);
+    @Query("SELECT m FROM Menu m LEFT JOIN FETCH m.restaurant r LEFT JOIN FETCH m.dishes WHERE m.restaurant.id = ?1 and m.date = ?2")
+    Menu get(int restaurant_id, LocalDate date);
 
 
     @Query("SELECT DISTINCT m FROM Menu m LEFT JOIN FETCH m.restaurant r LEFT JOIN FETCH m.dishes WHERE m.date = ?1")

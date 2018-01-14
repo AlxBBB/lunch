@@ -20,5 +20,7 @@ public interface RestaurantService {
 
     Menu saveMenu(Menu menu);
 
+    void deleteMenu(int menu_id);
+
     List<Menu> getAllMenu(LocalDate date);
 }

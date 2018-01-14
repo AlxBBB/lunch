@@ -3,6 +3,9 @@ package topjava.graduation.repository.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+import topjava.graduation.exception.NotFoundException;
+import topjava.graduation.model.Restaurant;
 import topjava.graduation.model.User;
 import topjava.graduation.model.Vote;
 import topjava.graduation.repository.restaurant.CrudRestaurantRepository;
@@ -56,13 +59,18 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    @Transactional
     public Vote setVote(int user_id, int restaurant_id) {
         Vote oldVote = crudVoteRepository.get(user_id, LocalDate.now());
+        Restaurant restaurant=crudRestaurantRepository.findOne(restaurant_id);
+        if (restaurant==null) {
+            throw new NotFoundException("Restaurant not found");
+        }
         if (oldVote == null) {
-            return crudVoteRepository.save(new Vote(crudUserRepository.findOne(user_id), crudRestaurantRepository.findOne(restaurant_id)));
+            return crudVoteRepository.save(new Vote(crudUserRepository.findOne(user_id), restaurant));
         } else {
             if (LocalTime.now().isBefore(LocalTime.of(11, 00))) {
-                oldVote.setRestaurant(crudRestaurantRepository.findOne(restaurant_id));
+                oldVote.setRestaurant(restaurant);
                 return crudVoteRepository.save(oldVote);
             } else {
                 return null;

@@ -13,14 +13,12 @@ import java.util.List;
 @Table(name = "menus", uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "date"}, name = "menus_unique_restaurant_date_idx")})
 public class Menu extends AbstractBaseEntity {
 
-    @Column(name = "date", nullable = false)
-    @NotNull
-    private LocalDate date;
-
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "menu")
     @OrderBy("cost DESC")
     protected List<Dish> dishes;
-
+    @Column(name = "date", nullable = false)
+    @NotNull
+    private LocalDate date;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -41,19 +39,19 @@ public class Menu extends AbstractBaseEntity {
         return date;
     }
 
-    public void setDishes(List<Dish> dishes) {
-        this.dishes = dishes;
-    }
-
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
-    }
-
     public void setDate(LocalDate date) {
         this.date = date;
     }
 
+    public void setDishes(List<Dish> dishes) {
+        this.dishes = dishes;
+    }
+
     public Restaurant getRestaurant() {
         return restaurant;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
     }
 }

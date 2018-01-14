@@ -5,8 +5,9 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import topjava.graduation.exception.NotFoundException;
-import topjava.graduation.model.core.Role;
 import topjava.graduation.model.User;
+import topjava.graduation.model.core.Role;
+
 import java.util.Arrays;
 
 import static topjava.graduation.UserTestData.*;
@@ -18,7 +19,7 @@ public class UserServiceTest extends AbstractServiceTest {
 
     @Before
     public void setUp() throws Exception {
-      service.evictCache();
+        service.evictCache();
     }
 
 
@@ -37,18 +38,11 @@ public class UserServiceTest extends AbstractServiceTest {
         MATCHER_USER.assertListEquals(Arrays.asList(newUser, ADMIN, USER1, USER2), service.getAll());
     }
 
-    @Test(expected = DataIntegrityViolationException.class)
-    public void testBadCreate() throws Exception {
-        service.save(new User(null, "New", "new@gmail.com", null, Role.ROLE_USER));
-    }
-
 
     @Test(expected = IllegalArgumentException.class)
     public void testNullCreate() throws Exception {
         service.save(null);
     }
-
-
 
     @Test(expected = DataIntegrityViolationException.class)
     public void testCreateDublEmail() throws Exception {

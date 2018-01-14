@@ -14,9 +14,13 @@ public interface RestaurantRepository {
 
     List<Restaurant> getAll();
 
-    Menu getMenu(Restaurant restaurant, LocalDate date);
+    Menu getMenu(int menu_id);
+
+    Menu getMenu(int restaurant_id, LocalDate date);
 
     Menu saveMenu(Menu menu);
+
+    boolean deleteMenu(int id);
 
     List<Menu> getAllMenu(LocalDate date);
 }

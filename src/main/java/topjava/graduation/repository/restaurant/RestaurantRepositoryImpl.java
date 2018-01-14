@@ -2,6 +2,7 @@ package topjava.graduation.repository.restaurant;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import topjava.graduation.model.Menu;
 import topjava.graduation.model.Restaurant;
 import topjava.graduation.model.core.AbstractNamedEntity;
@@ -19,7 +20,7 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
     @Autowired
     public RestaurantRepositoryImpl(CrudRestaurantRepository crudRestaurantRepository, CrudMenuRepository menuRepository) {
         this.crudRestaurantRepository = crudRestaurantRepository;
-        this.crudMenuRepository=menuRepository;
+        this.crudMenuRepository = menuRepository;
     }
 
     @Override
@@ -38,13 +39,28 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
     }
 
     @Override
-    public Menu getMenu(Restaurant restaurant, LocalDate date) {
-        return crudMenuRepository.get(restaurant, date);
+    public Menu getMenu(int restaurant_id, LocalDate date) {
+        return crudMenuRepository.get(restaurant_id, date);
     }
 
     @Override
+    public Menu getMenu(int menu_id) {
+        return crudMenuRepository.findOne(menu_id);
+    }
+
+    @Override
+    @Transactional
     public Menu saveMenu(Menu menu) {
+        if (!menu.isNew()) {
+            deleteMenu(menu.getId());
+            menu.setId(null);
+        }
         return crudMenuRepository.save(menu);
+    }
+
+    @Override
+    public boolean deleteMenu(int menu_id) {
+        return crudMenuRepository.delete(menu_id) > 0;
     }
 
     @Override
