@@ -13,6 +13,6 @@
 <body>
 <h1>Lunch</h1>
 <h2>REST API для голосования за меню ресторана.</h2>
-<div><p>Описание в README.md></p></div>
+<div><p>Описание в README.md</p></div>
 </body>
 </html>

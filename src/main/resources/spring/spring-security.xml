@@ -8,8 +8,7 @@
 
     <http pattern="/resources/**" security="none"/>
 
-
-    <http use-expressions="true" name="restSecurityFilterChain" entry-point-ref="customEntryPoint" create-session="stateless">
+    <http use-expressions="true" name="restSecurityFilterChain"  create-session="stateless">
         <http-basic/>
 
         <intercept-url pattern="/users/register" access="isAnonymous()"/>
@@ -18,14 +17,9 @@
         <intercept-url pattern="/restaurants/**/admin/**" access="hasRole('ROLE_ADMIN')"/>
         <intercept-url pattern="/restaurants/**" access="isAuthenticated()"/>
 
-
         <csrf disabled="true"/>
     </http>
 
-
-    <beans:bean id="customEntryPoint" class="topjava.graduation.util.CustomEntryPoint">
-        <beans:constructor-arg value="/login"/>
-    </beans:bean>
     <beans:bean class="topjava.graduation.util.PasswordUtil" id="passwordEncoder" factory-method="getPasswordEncoder"/>
     <authentication-manager>
         <authentication-provider user-service-ref="userService">
